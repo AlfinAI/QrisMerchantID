@@ -24,3 +24,6 @@
   `watch()` factory; `docs/shopee/`, `examples/06–08`, offline tests. Runtime
   verification vs a live partner account is TODO-S1 (programmatic OTP login
   arrives in B2).
+- Docs: README split — tidy main README + per-merchant guides
+  (`docs/gopay/README.md`, `docs/shopee/README.md` with flow diagrams);
+  Telegram contact (@JoestarMojo) added.
