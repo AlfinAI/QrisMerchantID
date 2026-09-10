@@ -15,7 +15,7 @@ each merchant has its own README with the full tutorial and flow diagrams:
 | Provider | Guide | Status |
 |---|---|---|
 | GoPay / GoBiz merchant | [docs/gopay/](docs/gopay/) | ✅ auth, users, merchants, transactions, payouts, QRIS, watcher |
-| ShopeePay partner | [docs/shopee/](docs/shopee/) | ✅ stores, transactions, watcher (manual `B:` token); OTP login is FASE B2 |
+| ShopeePay partner | [docs/shopee/](docs/shopee/) | ✅ OTP login, stores, transactions, watcher (login or manual `B:` token) |
 
 > Research/educational use only. Not affiliated with GoTo/GoPay/GoBiz or
 > Shopee/Sea Group. Read-only by design in v0.2.0 — it only *reads* your own
@@ -93,8 +93,8 @@ session = gopay.auth.login_with_otp(input("OTP: "), otp["otp_token"])
 txns = gopay.transactions.analytics("G...", days=7)
 print(txns["total"], "transactions")
 
-# --- ShopeePay: paste a B: token, then watch a store ---
-sp = ShopeePayPartner(token="B:...")   # how-to: docs/shopee/token.md
+# --- ShopeePay: token (or sp.auth OTP login), then watch a store ---
+sp = ShopeePayPartner(token="B:...")   # token how-to: docs/shopee/token.md
 print(sp.stores.list_stores())
 watcher = sp.watch(7)
 watcher.seed()

@@ -24,6 +24,14 @@
   `watch()` factory; `docs/shopee/`, `examples/06–08`, offline tests. Runtime
   verification vs a live partner account is TODO-S1 (programmatic OTP login
   arrives in B2).
+- FASE B2: ShopeePay programmatic OTP login — `AuthService` (`request_otp()`,
+  `verify_otp()`, `complete_login()`, `login_with_otp()` with the
+  merchant-selection flow, `refresh_session()`, `select_merchant()`/
+  `select_store()`, `account_session_alive()`), stateless JSON-serializable
+  challenge/verification/session dicts, `docs/shopee/auth.md` +
+  `docs/shopee/device-risk.md`, `examples/09_shopee_login_otp.py`, offline
+  tests (httpx.MockTransport). Runtime verification vs a live partner account
+  is TODO-S1.
 - Docs: README split — tidy main README + per-merchant guides
   (`docs/gopay/README.md`, `docs/shopee/README.md` with flow diagrams);
   Telegram contact (@JoestarMojo) added.

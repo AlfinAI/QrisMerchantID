@@ -29,3 +29,5 @@ print(sp.stores.list_stores())
   one. B2 will automate renewal.
 - Multi-store: each storefront session has its own token — construct one
   `ShopeePayPartner` per token.
+
+Prefer zero copy-paste? Log in programmatically instead — [auth.md](auth.md).

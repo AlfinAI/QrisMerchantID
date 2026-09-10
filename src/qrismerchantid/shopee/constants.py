@@ -39,3 +39,43 @@ DEFAULT_TIMEZONE = "Asia/Jakarta"
 USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0"
 ACCEPT = "application/json"
 ACCEPT_LANGUAGE = "id,en-US;q=0.9,en;q=0.8"
+
+# --- B2: programmatic OTP login (authClient.ts / shopeeProvider.ts) ---
+
+ACCOUNT_BASE_URL = "https://partner.business.accounts.shopee.co.id"
+PARTNER_API_BASE_URL = "https://api.partner.shopee.co.id"
+DEVICE_FINGERPRINT_REPORT_URL = "https://df.infra.sz.shopee.co.id/v2/shpsec/web/report"
+SZ_SDK_VERSION = "1.12.26-user.1"
+
+ACCOUNT_CLIENT_ID = "5"
+BUSINESS_CLIENT_ID = "1"
+PARTNER_LOGIN_FROM = "12"
+
+ENDPOINT_CHECK_PASSWORD_MIGRATE = "/api/v4/account/business/check_password_migrate"
+ENDPOINT_CHECK_ACCOUNT_EXISTS = "/api/v4/account/business/check_account_exist_by_password"
+ENDPOINT_AUTHENTICATE_BY_PASSWORD = "/api/v4/account/business/authenticate_toc_by_password"
+ENDPOINT_OTP_SETTINGS = "/api/v4/account/business/get_otp_settings"
+ENDPOINT_SEND_OTP = "/api/v4/account/business/send_otp"
+ENDPOINT_VERIFY_OTP = "/api/v4/account/business/verify_otp"
+ENDPOINT_AUTHENTICATE_BY_OTP = "/api/v4/account/business/authenticate_toc_by_otp"
+ENDPOINT_LOGIN_TOC = "/api/v4/account/business/login_toc"
+ENDPOINT_LOGIN_STATUS = "/api/v4/account/business/login_status"
+ENDPOINT_MERCHANT_DETECT = "/nb/mss/mer-detect-api/PartnerMerchantDetectServer/MerchantDetect"
+ENDPOINT_USER_INFO = "/nb/mss/web-api/PartnerAccountServer/GetUserInfo"
+ENDPOINT_ACCOUNT_LOGIN = "/account/login/auth"
+ENDPOINT_ACCOUNT_LOGIN_TOKEN = "/authenticate/login/token/"
+ENDPOINT_ACCOUNT_TOB_AUTH = "/account/login/tob/auth"
+ENDPOINT_PARTNER_LOGIN_AUTH = "/login/auth"
+ENDPOINT_AUTHENTICATE_LOGIN = "/authenticate/login/"
+
+OTP_OPERATION = 50001
+OTP_CHANNELS = (1, 2, 3, 5)  # SMS, voice, WhatsApp, Zalo
+SEND_OTP_CHANNELS = (1, 2, 3, 5, 4)  # ... + email
+DEFAULT_OTP_CHANNEL = 3  # WhatsApp (reference capture default)
+
+NEED_OTP_CODE = 48401102  # password accepted — OTP second factor required
+NOT_LOGIN_CODE = 48500102  # account session dead — fresh OTP required
+
+LIVE_TOKEN_COOKIE = "__shopee_partner_website_x_token_live"
+CLIENT_ID_COOKIE = "SPC_CLIENTID"
+CSRF_COOKIE = "csrftoken"

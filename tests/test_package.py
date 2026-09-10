@@ -37,4 +37,5 @@ def test_shopee_facade_shares_one_client():
     sp = ShopeePayPartner(token="B:t")
     for name in ("stores", "transactions"):
         assert getattr(sp, name)._client is sp.client, name
-    sp.client.close()
+    assert sp.auth._data is sp.client
+    sp.close()

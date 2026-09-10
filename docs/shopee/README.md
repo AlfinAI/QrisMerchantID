@@ -15,29 +15,40 @@ sp.transactions   # list_recent(store_id) — normalized feed
 sp.watch(...)     # payment watcher factory (store-scoped)
 ```
 
-Service pages: [token](token.md) · [stores](stores.md) ·
-[transactions](transactions.md) · [watcher](watcher.md)
+Service pages: [auth](auth.md) · [token](token.md) · [stores](stores.md) ·
+[transactions](transactions.md) · [watcher](watcher.md) · [device-risk](device-risk.md)
 
-## 1. Token setup
+## 1. Login — OTP (or manual token)
 
-B1 has no login flow yet, so you paste the merchant token from your own
-logged-in partner portal session (2 minutes, your browser — full steps in
-[token.md](token.md)):
-
-1. Log in to `https://partner.shopee.co.id`.
-2. DevTools → Network → open the ShopeePay transaction history page.
-3. Click the `get-transaction-list` request → Request Payload → `data` →
-   `metadata` → `token` (starts with `B:`).
+Two ways to authenticate. Programmatic OTP login (B2):
 
 ```python
-sp = ShopeePayPartner(token="B:paste-yours-here")
-sp.set_token("B:rotated-later")  # tokens rotate — re-paste when 200020 hits
+challenge = sp.auth.request_otp("0812xxxxxxx", password="...")  # + device_report, see below
+outcome = sp.auth.login_with_otp(challenge, input("OTP: "))
+# -> {"status": "complete", "session": {...}}  (or "merchant-selection-required")
+session = outcome["session"]
+
+import json
+json.dump(session, open(".shopee-session.json", "w"))  # persist: cookies + token inside
+
+# next run: restore + renew without OTP
+session = json.load(open(".shopee-session.json"))
+session = sp.auth.refresh_session(session)   # raises when only a fresh OTP recovers
+sp.set_token(session["token"])
 ```
 
-Rules: the token lives in YOUR `.env` (`SHOPEE_TOKEN=...`) and is only ever
-sent to Shopee's own servers — never commit it. Codes `200020`/`2010000`
-("Shopee rejected the saved session") mean the token died: paste a fresh one,
-don't retry. Multi-store: one `ShopeePayPartner` per token.
+Multi-merchant accounts without `merchant_id=` stop at
+`"merchant-selection-required"` — show `outcome["merchants"]`, then
+`sp.auth.complete_login(outcome["verification"], merchant_id=...)`. No second
+OTP needed. Full guide: [auth.md](auth.md).
+
+> **OTP delivery needs telemetry.** Without a `device_report` blob the issuer
+> returns a degraded risk token and Shopee silently withholds the code. Capture
+> the blob from YOUR own browser — [device-risk.md](device-risk.md). No shared
+> blob is shipped with this package, deliberately.
+
+Alternative: paste a manual `B:` token ([token.md](token.md)) — 2 minutes, no
+login flow, but re-paste on every rotation.
 
 ## 2. Stores
 
