@@ -11,5 +11,7 @@
 - FASE A2: `transactions.analytics()/journals()/qris_issuer_breakdown()`,
   `payouts.list()/payable_detail()` (HAR-discovered endpoints), `money.to_rupiah()`,
   `qris` EMVCo helpers (parse/inject/CRC16), `PaymentWatcher` + `watch()` factory.
+- FASE A3: detailed GoPay README guide, `docs/gopay/` service pages, runnable
+  `examples/`.
 - README: full unofficial-research disclaimer (EN + ID) — use at own risk.
 - `research/RESEARCH_GOPAY_SHOPEEPAY.md`: endpoint research + anonymized HAR verification.
