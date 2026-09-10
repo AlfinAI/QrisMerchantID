@@ -32,6 +32,10 @@
   `docs/shopee/device-risk.md`, `examples/09_shopee_login_otp.py`, offline
   tests (httpx.MockTransport). Runtime verification vs a live partner account
   is TODO-S1.
+- Docs: README refresh (badges, roadmap, contributing), GitHub Discussions
+  enabled, issue templates hardened (provider field, no-credentials checklist,
+  contact links); `*-session.json` git-ignored so example session files can
+  never leak.
 - Docs: README split — tidy main README + per-merchant guides
   (`docs/gopay/README.md`, `docs/shopee/README.md` with flow diagrams);
   Telegram contact (@JoestarMojo) added.

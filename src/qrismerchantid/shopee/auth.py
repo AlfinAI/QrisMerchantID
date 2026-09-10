@@ -920,5 +920,6 @@ def _choose_store_id(
     if profile_store is not None and any(s.get("id") == profile_store for s in stores):
         return profile_store
     if len(stores) == 1:
-        return str(stores[0].get("id"))
+        only = stores[0].get("id")
+        return str(only) if only is not None else None
     return None

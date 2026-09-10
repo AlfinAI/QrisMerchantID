@@ -26,6 +26,7 @@ htmlcov/
 .GOPAY_SESI_JANGAN_DIHAPUS.json
 *-token.json
 *-otp*.json
+*-session.json
 # Editors & OS
 .vscode/
 .idea/

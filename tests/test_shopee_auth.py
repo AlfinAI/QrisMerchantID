@@ -938,3 +938,8 @@ def test_non_object_json_and_partner_data_edges():
     mock.json("POST", "MerchantDetect", {"errorCode": 0, "errorMsg": "", "data": ["x"]})
     with pytest.raises(ApiException, match="non-object data"):
         _auth_service(mock).verify_otp(_challenge(), "1234")
+
+
+def test_choose_store_id_without_id_returns_none():
+    assert A._choose_store_id([{"name": "x"}], None, None) is None
+    assert A._choose_store_id([{"id": "7"}], None, None) == "7"
