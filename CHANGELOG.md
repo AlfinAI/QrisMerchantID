@@ -13,5 +13,7 @@
   `qris` EMVCo helpers (parse/inject/CRC16), `PaymentWatcher` + `watch()` factory.
 - FASE A3: detailed GoPay README guide, `docs/gopay/` service pages, runnable
   `examples/`.
+- Docs: repo logo (`assets/logo.png`) + mermaid merchant-flow diagrams in README
+  (GoPay login, GoPay payment, ShopeePay roadmap).
 - README: full unofficial-research disclaimer (EN + ID) — use at own risk.
 - `research/RESEARCH_GOPAY_SHOPEEPAY.md`: endpoint research + anonymized HAR verification.

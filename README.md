@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/logo.png" alt="QrisMerchantID logo" width="140" />
+</p>
+
 # QrisMerchantID — Unofficial Indonesian QRIS merchant API client for Python
 
 [![Tests](https://github.com/AlfinAI/QrisMerchantID/actions/workflows/test.yml/badge.svg)](https://github.com/AlfinAI/QrisMerchantID/actions/workflows/test.yml)
@@ -46,10 +50,7 @@ hanya dikirim ke server resmi penyedia) — jangan pernah commit file `.env`,
 - [Installation](#installation)
 - [Core concepts](#core-concepts) (minor units · sessions · errors)
 - [GoPay guide](#gopay-guide)
-  - [Login](#1-login--otp--password) · [Session cache](#2-session-cache)
-  - [Users & merchants](#3-users--merchants) · [Transactions](#4-transactions)
-  - [Payouts](#5-payouts) · [QRIS dynamic](#6-qris-dynamic)
-  - [Payment watcher](#7-payment-watcher) · [Configuration](#8-configuration)
+- [Merchant flows](#merchant-flows) (GoPay login · GoPay payment · ShopeePay roadmap)
 - [Development](#development) · [Research](#research) · [Credits](#credits)
 
 ## Installation
@@ -250,6 +251,84 @@ from qrismerchantid.core.transport import HttpxTransport
 
 transport = HttpxTransport(httpx.Client(http2=True, proxy="http://localhost:8080"))
 gopay = GoPayMerchant(transport=transport)
+```
+
+## Merchant flows
+
+How money moves through each provider, end to end. (GitHub renders these as
+diagrams automatically.)
+
+### GoPay login — OTP
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Merchant
+    participant App as Your App
+    participant SDK as QrisMerchantID
+    participant GoBiz as GoBiz API (api.gobiz.co.id)
+    Merchant->>App: Start login
+    App->>SDK: auth.request_otp(phone)
+    SDK->>GoBiz: POST /goid/login/request
+    GoBiz-->>SDK: 201 (otp_token, expires_in)
+    SDK-->>App: otp data
+    Merchant->>Merchant: Reads 4-digit SMS code
+    App->>SDK: auth.login_with_otp(code, otp_token)
+    SDK->>GoBiz: POST /goid/token (grant_type otp)
+    GoBiz-->>SDK: 201 (access_token, refresh_token)
+    SDK-->>App: session, token set on client
+    App->>App: token_cache.save() for next run
+```
+
+### GoPay payment — dynamic QRIS + watcher
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Buyer
+    participant Store as Your Store
+    participant SDK as QrisMerchantID
+    participant GoBiz as GoBiz API
+    Store->>SDK: qris.inject_amount(static_qris, bill)
+    Note over SDK: Tag 54 + CRC16, fully offline
+    SDK-->>Store: dynamic QRIS string
+    Store->>Buyer: Display QR code
+    Buyer->>Buyer: Scans and pays (GoPay or any e-money)
+    Store->>SDK: watch(merchant_id).seed()
+    loop Every 6s, checkout active only
+        SDK->>GoBiz: GET merchant-analytics transactions
+        GoBiz-->>SDK: tx list (minor units)
+    end
+    SDK-->>Store: wait_for_payment() returns tx (or TimeoutError)
+    Store->>Store: Record order_id, reject replays
+```
+
+### ShopeePay payment — roadmap (FASE B)
+
+Target design, derived from the `merchantid` + `shoppepay-api-gateway` research
+(research §4). Not implemented yet — the provider slot is reserved.
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Buyer
+    participant Store as Your Store
+    participant GW as ShopeePay provider (FASE B)
+    participant SP as ShopeePay Partner API
+    Store->>GW: create-qris (amount)
+    Note over GW: Static inject Tag 54 + CRC16
+    GW-->>Store: QR string + expiry
+    Store->>Buyer: Display QR code
+    Buyer->>Buyer: Scans and pays
+    loop Every 10-15s, checkout active only
+        Store->>GW: check-payment (amount, startTime)
+        GW->>SP: POST get-transaction-list
+        SP-->>GW: incoming tx list
+    end
+    GW->>SP: POST get-transaction-detail (issuer check)
+    SP-->>GW: sender detail (OVO/DANA/BCA and more)
+    GW-->>Store: paid=true + transaction (dedup 24h)
+    Store->>Store: Mark invoice PAID
 ```
 
 ## Development
