@@ -13,7 +13,7 @@ One Python package for Indonesia's QRIS merchant APIs. Provider lineup:
 | Provider | Status | Scope |
 |---|---|---|
 | GoPay / GoBiz merchant | ✅ auth, users, merchants, transactions, payouts, QRIS, watcher | login (password + OTP), merchants, transactions, payouts, QRIS helpers, payment watcher |
-| ShopeePay partner | 🗺️ roadmap (FASE B) | login, stores, transactions — see `research/RESEARCH_GOPAY_SHOPEEPAY.md` §4 |
+| ShopeePay partner | ✅ stores, transactions, watcher (manual `B:` token) | token → stores → feed → watcher; programmatic OTP login is FASE B2 |
 
 > Research/educational use only. Not affiliated with GoTo/GoPay/GoBiz or
 > Shopee/Sea Group. Read-only by design in v0.1.0 — it only *reads* your own
@@ -348,7 +348,9 @@ Runnable flows (need real merchant credentials via env, except QRIS):
 ## Research
 
 Full endpoint research (repos surveyed + anonymized HAR verification):
-`research/RESEARCH_GOPAY_SHOPEEPAY.md`. Per-service pages: `docs/gopay/`.
+`research/RESEARCH_GOPAY_SHOPEEPAY.md` + the ShopeePay deep-dive
+`research/ANALYSIS_SHOPEEPAY_PHASE_B.md`. Per-service pages: `docs/gopay/`,
+`docs/shopee/`.
 
 ## Credits
 

@@ -17,3 +17,10 @@
   (GoPay login, GoPay payment, ShopeePay roadmap).
 - README: full unofficial-research disclaimer (EN + ID) — use at own risk.
 - `research/RESEARCH_GOPAY_SHOPEEPAY.md`: endpoint research + anonymized HAR verification.
+- FASE B1: ShopeePay provider — `ShopeePayPartner` facade (manual `B:` token)
+  with `stores.list_stores()` (cursor paging + unfiltered retry),
+  `transactions.list_recent()` (cursor feed, whole-rupiah normalization,
+  store/merchant scope checks), `money.parse_id_amount()`, `ShopeePayWatcher` +
+  `watch()` factory; `docs/shopee/`, `examples/06–08`, offline tests. Runtime
+  verification vs a live partner account is TODO-S1 (programmatic OTP login
+  arrives in B2).
