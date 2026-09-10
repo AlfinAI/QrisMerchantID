@@ -8,7 +8,7 @@ One Python package for Indonesia's QRIS merchant APIs. Provider lineup:
 
 | Provider | Status | Scope |
 |---|---|---|
-| GoPay / GoBiz merchant | ✅ A1 auth + users + merchants · 🚧 A2 transactions/payouts/QRIS/watcher | login (password + OTP), merchants, transactions, payouts, QRIS helpers, payment watcher |
+| GoPay / GoBiz merchant | ✅ auth + users + merchants + transactions + payouts + QRIS + watcher | login (password + OTP), merchants, transactions, payouts, QRIS helpers, payment watcher |
 | ShopeePay partner | 🗺️ roadmap (FASE B) | login, stores, transactions — see `research/RESEARCH_GOPAY_SHOPEEPAY.md` §4 |
 
 > Research/educational use only. Not affiliated with GoTo/GoPay/GoBiz or
@@ -63,7 +63,7 @@ session = gopay.auth.login_with_otp(input("OTP: "), otp["otp_token"])
 
 me = gopay.users.me()
 merchants = gopay.merchants.search()  # -> {"total", "success", "hits"}
-detail = gopay.merchants.detail(merchants["hits"][0]["id"])
+merchant_id = merchants["hits"][0]["id"]
 ```
 
 Cache the session to skip OTP next time (GoBiz sessions carry no server expiry —
@@ -75,6 +75,25 @@ from qrismerchantid.core import token_cache
 token_cache.save(".gopay-session.json", session)
 session = token_cache.load(".gopay-session.json")
 gopay = GoPayMerchant(access_token=session["access_token"]) if session else GoPayMerchant()
+```
+
+## Transactions, payouts, QRIS, watcher
+
+```python
+from qrismerchantid.gopay import money, qris
+
+txns = gopay.transactions.analytics(merchant_id, days=7)  # minor units!
+print(money.to_rupiah(txns["transactions"][0]["gross_amount"]))
+
+issuers = gopay.transactions.qris_issuer_breakdown(start, end)
+payouts = gopay.payouts.list()
+payable = gopay.payouts.payable_detail(merchant_id)
+
+dynamic = qris.inject_amount(static_qris_string, 50000)  # Tag 54 + CRC16
+
+watcher = gopay.watch(merchant_id)
+watcher.seed()  # mark current history as seen
+paid = watcher.wait_for_payment(5_000_000, timeout=300)  # Rp50.000 in minor units
 ```
 
 ## Development

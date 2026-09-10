@@ -21,7 +21,6 @@ def test_api_exception_attributes():
 
 def test_gopay_facade_shares_one_client():
     gopay = GoPayMerchant()
-    assert gopay.auth._client is gopay.client
-    assert gopay.users._client is gopay.client
-    assert gopay.merchants._client is gopay.client
+    for name in ("auth", "users", "merchants", "transactions", "payouts"):
+        assert getattr(gopay, name)._client is gopay.client, name
     gopay.client.close()

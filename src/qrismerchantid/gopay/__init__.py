@@ -1,4 +1,5 @@
-"""GoPay/GoBiz merchant provider (FASE A1: auth, users, merchants).
+"""GoPay/GoBiz merchant provider (FASE A1–A2: auth, users, merchants, transactions,
+payouts, QRIS helpers, payment watcher).
 
 API knowledge: kavionn/gobiz-payment (primary), warungerik/API-GOPAY-MERCHANT,
 alhifnywahid/merchantid + a live portal HAR capture (research §9).
@@ -11,11 +12,14 @@ from qrismerchantid.gopay import constants as C
 from qrismerchantid.gopay.auth import AuthService
 from qrismerchantid.gopay.client import GoPayClient
 from qrismerchantid.gopay.merchants import MerchantsService
+from qrismerchantid.gopay.payouts import PayoutsService
+from qrismerchantid.gopay.transactions import TransactionsService
 from qrismerchantid.gopay.users import UsersService
+from qrismerchantid.gopay.watcher import PaymentWatcher
 
 
 class GoPayMerchant:
-    """Facade: ``auth``, ``users`` and ``merchants`` sharing one :class:`GoPayClient`.
+    """Facade: services sharing one :class:`GoPayClient`, plus a watcher factory.
 
     Args:
         access_token: reuse a cached GoID session (see ``core.token_cache``).
@@ -49,6 +53,12 @@ class GoPayMerchant:
         self.auth = AuthService(self.client)
         self.users = UsersService(self.client)
         self.merchants = MerchantsService(self.client)
+        self.transactions = TransactionsService(self.client)
+        self.payouts = PayoutsService(self.client)
+
+    def watch(self, merchant_id: str, poll_interval: float = 6.0) -> PaymentWatcher:
+        """Create a :class:`PaymentWatcher` bound to this instance's login."""
+        return PaymentWatcher(self.transactions, merchant_id, poll_interval=poll_interval)
 
 
-__all__ = ["GoPayMerchant"]
+__all__ = ["GoPayMerchant", "PaymentWatcher"]

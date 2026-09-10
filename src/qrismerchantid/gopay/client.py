@@ -94,10 +94,18 @@ class GoPayClient:
         }
 
     def request(
-        self, method: str, url: str, body: dict[str, Any] | None = None, *, auth_call: bool = False
+        self,
+        method: str,
+        url: str,
+        body: dict[str, Any] | None = None,
+        *,
+        auth_call: bool = False,
+        extra_headers: dict[str, str] | None = None,
     ) -> dict[str, Any]:
         """Send a request, retrying transport errors; 2xx (incl. 201) succeeds."""
         headers = self.auth_headers() if auth_call else self.api_headers()
+        if extra_headers:
+            headers.update(extra_headers)
         payload = json.dumps(body) if body is not None else None
         attempt = 0
         while True:
@@ -132,13 +140,17 @@ class GoPayClient:
         raise ApiException(message, code, data, status)
 
     def get(
-        self, path: str, params: dict[str, str] | None = None, base_url: str = C.BASE_URL
+        self,
+        path: str,
+        params: dict[str, str] | None = None,
+        base_url: str = C.BASE_URL,
+        extra_headers: dict[str, str] | None = None,
     ) -> dict[str, Any]:
         """GET ``base_url + path`` with optional query params."""
         url = base_url + path
         if params:
             url += "?" + urlencode(params)
-        return self.request("GET", url)
+        return self.request("GET", url, extra_headers=extra_headers)
 
     def post(
         self,
@@ -147,9 +159,10 @@ class GoPayClient:
         *,
         auth_call: bool = False,
         base_url: str = C.BASE_URL,
+        extra_headers: dict[str, str] | None = None,
     ) -> dict[str, Any]:
         """POST a JSON ``data`` body to ``base_url + path``."""
-        return self.request("POST", base_url + path, data, auth_call=auth_call)
+        return self.request("POST", base_url + path, data, auth_call=auth_call, extra_headers=extra_headers)
 
     def close(self) -> None:
         """Close the internally created httpx client (no-op for injected fakes)."""
