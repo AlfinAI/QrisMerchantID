@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+# Builds & dists
+build/
+dist/
+# Virtualenvs
+.venv/
+venv/
+# Test & coverage artifacts
+.pytest_cache/
+.coverage*
+coverage.xml
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+# NEVER commit credentials, captures, or caches — research HARs contain LIVE tokens
+.env
+*.env
+*.har
+*.zip
+*.json.gz
+.gopay_cache.json
+.GOPAY_SESI_JANGAN_DIHAPUS.json
+*-token.json
+*-otp*.json
+# Editors & OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
