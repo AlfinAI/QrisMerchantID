@@ -1,0 +1,253 @@
+# sources: ../research/APK_GOPAY_MERCHANT_2.3.0_ANALYSIS.md (§5.2), ../research/APK_GOFOOD_MERCHANT_5.49.0_ANALYSIS.md (§5.2), ../research/APK_GOFOOD_MERCHANT_5.49.0_ENDPOINTS.txt
+# Catatan: path literal GoPay di-expand dari notasi grup §5.2 memakai output strings-grep sesi analisis (terverifikasi sesi); path GoFood verbatim dari S3.
+# method_guess & host_terkait SELALU "BELUM TERVERIFIKASI" (statis saja, TODO-NET-1).
+path,method_guess,grup,host_terkait,apk_sumber,terverifikasi,dipakai_runtime,catatan
+/api/v1/users/pin/challenges,BELUM TERVERIFIKASI,auth-pin,BELUM TERVERIFIKASI,keduanya,ya (string statis),BELUM TERVERIFIKASI,IDENTIK di kedua APK (PIN SDK bersama)
+/api/v1/users/pin/tokens,BELUM TERVERIFIKASI,auth-pin,BELUM TERVERIFIKASI,keduanya,ya (string statis),BELUM TERVERIFIKASI,IDENTIK di kedua APK
+/api/v1/users/pins/allowed,BELUM TERVERIFIKASI,auth-pin,BELUM TERVERIFIKASI,keduanya,ya (string statis),BELUM TERVERIFIKASI,IDENTIK di kedua APK
+/api/v2/challenges/{challenge-id}/pin-page,BELUM TERVERIFIKASI,auth-pin,BELUM TERVERIFIKASI,keduanya,ya (string statis),BELUM TERVERIFIKASI,IDENTIK di kedua APK
+/api/v2/users/pins/reset/tokens,BELUM TERVERIFIKASI,auth-pin,BELUM TERVERIFIKASI,keduanya,ya (string statis),BELUM TERVERIFIKASI,IDENTIK di kedua APK
+/api/v2/users/pins/setup/tokens,BELUM TERVERIFIKASI,auth-pin,BELUM TERVERIFIKASI,keduanya,ya (string statis),BELUM TERVERIFIKASI,IDENTIK di kedua APK
+/api/v1/users/pins/otp/init,BELUM TERVERIFIKASI,auth-pin,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/v3/partner/identity/auth,BELUM TERVERIFIKASI,auth-pin,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/v3/users/pins/reset/tokens,BELUM TERVERIFIKASI,auth-pin,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/v3/users/pins/setup/tokens,BELUM TERVERIFIKASI,auth-pin,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/v1/users/pins/reset/tokens,BELUM TERVERIFIKASI,auth-pin,BELUM TERVERIFIKASI,GoFood-only,ya (string statis),BELUM TERVERIFIKASI,v1 reset hanya di GoFood
+/api/v1/users/pins/setup/tokens,BELUM TERVERIFIKASI,auth-pin,BELUM TERVERIFIKASI,GoFood-only,ya (string statis),BELUM TERVERIFIKASI,v1 setup hanya di GoFood
+/v2/users/pin/update,BELUM TERVERIFIKASI,auth-pin,BELUM TERVERIFIKASI,GoFood-only,ya (string statis),BELUM TERVERIFIKASI,—
+/v3/users/pin/update,BELUM TERVERIFIKASI,auth-pin,BELUM TERVERIFIKASI,GoFood-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/auth/token,BELUM TERVERIFIKASI,auth-profil,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/v1/login/complete,BELUM TERVERIFIKASI,auth-profil,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,Flow login merchant-app (GOPAY-TODO-NET-3)
+/api/v1/totp,BELUM TERVERIFIKASI,auth-profil,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/v1/profile,BELUM TERVERIFIKASI,auth-profil,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/v1/profile/verify-fr,BELUM TERVERIFIKASI,auth-profil,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/v1/profile/verify-otp,BELUM TERVERIFIKASI,auth-profil,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/v1/user/kyc-submission-status,BELUM TERVERIFIKASI,auth-profil,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/v1/user/safety-meter,BELUM TERVERIFIKASI,auth-profil,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/registration/status,BELUM TERVERIFIKASI,auth-profil,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/kyc/token,BELUM TERVERIFIKASI,auth-profil,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/v1/auth/register,BELUM TERVERIFIKASI,auth-profil,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/profile,BELUM TERVERIFIKASI,auth-profil,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/users,BELUM TERVERIFIKASI,auth-profil,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/users/,BELUM TERVERIFIKASI,auth-profil,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,Varian trailing-slash
+/api/users/bulk,BELUM TERVERIFIKASI,auth-profil,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/users/validate,BELUM TERVERIFIKASI,auth-profil,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/v1/users/kyc/upgrade/eligibility,BELUM TERVERIFIKASI,auth-profil,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/v1/unified-histories,BELUM TERVERIFIKASI,histori,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,PRIORITAS integrasi
+/api/v1/unified-histories/filter,BELUM TERVERIFIKASI,histori,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,PRIORITAS integrasi
+/api/v2/histories,BELUM TERVERIFIKASI,histori,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/history-filter,BELUM TERVERIFIKASI,histori,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/orders,BELUM TERVERIFIKASI,histori,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/orders/,BELUM TERVERIFIKASI,histori,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,Varian trailing-slash
+/api/orders/histories,BELUM TERVERIFIKASI,histori,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/orders/summary,BELUM TERVERIFIKASI,histori,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/reports/on-demand,BELUM TERVERIFIKASI,histori,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/reports/transactions/job,BELUM TERVERIFIKASI,histori,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/v1/finance/balance/home,BELUM TERVERIFIKASI,keuangan,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/v1/finance/balance/multi-wallet,BELUM TERVERIFIKASI,keuangan,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,PRIORITAS integrasi
+/api/v1/finance/balance/payout,BELUM TERVERIFIKASI,keuangan,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/v1/finance/balance/sof,BELUM TERVERIFIKASI,keuangan,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/v2/finance/balance/home,BELUM TERVERIFIKASI,keuangan,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/v1/finance/earning/home,BELUM TERVERIFIKASI,keuangan,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,Laporan §5.2 tulis grup finance/earning
+/api/v1/finance/gopay-limit,BELUM TERVERIFIKASI,keuangan,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/v1/finance/interests/gptu,BELUM TERVERIFIKASI,keuangan,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/v1/finance/pills,BELUM TERVERIFIKASI,keuangan,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/transactions/,BELUM TERVERIFIKASI,transaksi-qris,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/transactions/charge,BELUM TERVERIFIKASI,transaksi-qris,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/transactions/charge/qris-link,BELUM TERVERIFIKASI,transaksi-qris,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,PRIORITAS integrasi (QRIS link)
+/api/transactions/cpm/payment,BELUM TERVERIFIKASI,transaksi-qris,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,CPM = customer-presented mode
+/api/transactions/refund,BELUM TERVERIFIKASI,transaksi-qris,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/v1/qris/shared,BELUM TERVERIFIKASI,transaksi-qris,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,PRIORITAS integrasi (QRIS shared)
+/api/payouts/manual,BELUM TERVERIFIKASI,payout-bank,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/payouts/options,BELUM TERVERIFIKASI,payout-bank,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/payouts/settings,BELUM TERVERIFIKASI,payout-bank,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/v1/payout-confirm,BELUM TERVERIFIKASI,payout-bank,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/v1/payout-page,BELUM TERVERIFIKASI,payout-bank,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/v1/payouts/schedules,BELUM TERVERIFIKASI,payout-bank,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/v1/payouts/gptu/backfill,BELUM TERVERIFIKASI,payout-bank,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/bank-accounts/validate,BELUM TERVERIFIKASI,payout-bank,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/bank-accounts/validate-gopay,BELUM TERVERIFIKASI,payout-bank,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/bank-accounts/validate-gptu,BELUM TERVERIFIKASI,payout-bank,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/bank-accounts/beneficiary-banks,BELUM TERVERIFIKASI,payout-bank,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/v2/bank-accounts/register,BELUM TERVERIFIKASI,payout-bank,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/v2/bank-accounts/verify,BELUM TERVERIFIKASI,payout-bank,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/v1/sof/gopay/register,BELUM TERVERIFIKASI,payout-bank,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,SoF = source of funds
+/api/v1/sof/gopay/verify,BELUM TERVERIFIKASI,payout-bank,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/onboarding/processes,BELUM TERVERIFIKASI,onboarding-outlet,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/onboarding/processes/,BELUM TERVERIFIKASI,onboarding-outlet,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,Varian trailing-slash
+/api/outlets,BELUM TERVERIFIKASI,onboarding-outlet,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/outlets/,BELUM TERVERIFIKASI,onboarding-outlet,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,Varian trailing-slash
+/api/v1/outlets/,BELUM TERVERIFIKASI,onboarding-outlet,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/v1/outlets/update-requests/,BELUM TERVERIFIKASI,onboarding-outlet,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/v1/update-requests/outlets,BELUM TERVERIFIKASI,onboarding-outlet,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/v1/update-requests/outlets/,BELUM TERVERIFIKASI,onboarding-outlet,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,Varian trailing-slash
+/api/v1/update-requests/outlets/pages/,BELUM TERVERIFIKASI,onboarding-outlet,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/v1/onboarding/location/reverse-geocode,BELUM TERVERIFIKASI,onboarding-outlet,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/documents/mcc,BELUM TERVERIFIKASI,onboarding-outlet,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/documents/postal-code,BELUM TERVERIFIKASI,onboarding-outlet,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/v1/merchant/instrument-option/detail/,BELUM TERVERIFIKASI,onboarding-outlet,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/v1/merchant/instrument-option/list,BELUM TERVERIFIKASI,onboarding-outlet,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/location/search,BELUM TERVERIFIKASI,lokasi,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/location/reverse-geocode,BELUM TERVERIFIKASI,lokasi,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/location/administrative-areas/search,BELUM TERVERIFIKASI,lokasi,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/notifications/inbox,BELUM TERVERIFIKASI,notifikasi,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/notifications/read,BELUM TERVERIFIKASI,notifikasi,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/notifications/setting,BELUM TERVERIFIKASI,notifikasi,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,Laporan tulis setting (singular)
+/api/feedback/reasons,BELUM TERVERIFIKASI,notifikasi,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/feedback/submit,BELUM TERVERIFIKASI,notifikasi,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/feedbacks,BELUM TERVERIFIKASI,notifikasi,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/v1/events,BELUM TERVERIFIKASI,notifikasi,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,Pasangan REST untuk wss raccoon events
+/api/configs/detail/article-page-configs,BELUM TERVERIFIKASI,konten-config,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,Remote config key
+/api/configs/detail/business-confirmation-page,BELUM TERVERIFIKASI,konten-config,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,Remote config key
+/api/configs/detail/cico-shortcut,BELUM TERVERIFIKASI,konten-config,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,Remote config key
+/api/configs/detail/cico-topup-url,BELUM TERVERIFIKASI,konten-config,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,Remote config key
+/api/configs/detail/cico-transfer-shortcut,BELUM TERVERIFIKASI,konten-config,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,Remote config key
+/api/configs/detail/gma-consent-page,BELUM TERVERIFIKASI,konten-config,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,Remote config key
+/api/configs/detail/gma-onboarding-public-general,BELUM TERVERIFIKASI,konten-config,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,Remote config key
+/api/configs/detail/gma-webkit-webview-config,BELUM TERVERIFIKASI,konten-config,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,Remote config key
+/api/configs/detail/gopay-container,BELUM TERVERIFIKASI,konten-config,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,Remote config key
+/api/configs/detail/gopay-spiker-faq,BELUM TERVERIFIKASI,konten-config,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,Remote config key
+/api/configs/detail/gopay-spiker-prepurchase,BELUM TERVERIFIKASI,konten-config,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,Remote config key
+/api/configs/detail/gopay-spiker-product-detail-navigation,BELUM TERVERIFIKASI,konten-config,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,Remote config key
+/api/configs/detail/gopay-spiker-salestags-v2,BELUM TERVERIFIKASI,konten-config,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,Remote config key
+/api/configs/detail/gopay-spiker-testimony,BELUM TERVERIFIKASI,konten-config,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,Remote config key
+/api/configs/detail/gopay-spiker-tutorial,BELUM TERVERIFIKASI,konten-config,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,Remote config key
+/api/configs/detail/gopay-spiker-unboxing-guide-reels,BELUM TERVERIFIKASI,konten-config,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,Remote config key
+/api/configs/detail/gopay-spiker-verification-guide-reels,BELUM TERVERIFIKASI,konten-config,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,Remote config key
+/api/configs/detail/gopay-spiker-voice-selection,BELUM TERVERIFIKASI,konten-config,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,Remote config key
+/api/configs/detail/gopay_payout_disclaimer_content,BELUM TERVERIFIKASI,konten-config,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,Remote config key
+/api/configs/detail/gopay_payout_form_migpa,BELUM TERVERIFIKASI,konten-config,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,Remote config key
+/api/configs/detail/onboarding-consent-url,BELUM TERVERIFIKASI,konten-config,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,Remote config key
+/api/configs/detail/onboarding-location-access-toggle,BELUM TERVERIFIKASI,konten-config,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,Remote config key
+/api/configs/detail/ordered-merchant-type,BELUM TERVERIFIKASI,konten-config,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,Remote config key
+/api/configs/detail/soundbox-change-package-pricing-pageP,BELUM TERVERIFIKASI,konten-config,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,Ejaan ...pageP verbatim dari strings
+/api/configs/detail/soundbox-checkout-page,BELUM TERVERIFIKASI,konten-config,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,Remote config key
+/api/configs/detail/soundbox-prayer-times,BELUM TERVERIFIKASI,konten-config,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,Remote config key
+/api/configs/detail/soundbox-pricing-page,BELUM TERVERIFIKASI,konten-config,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,Remote config key
+/api/configs/detail/top-mcc-individual-workers,BELUM TERVERIFIKASI,konten-config,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,Remote config key
+/api/configs/detail/top-mcc-offline-store-merchant,BELUM TERVERIFIKASI,konten-config,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,Remote config key
+/api/configs/detail/top-mcc-online-offline-store-merchant,BELUM TERVERIFIKASI,konten-config,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,Remote config key
+/api/configs/detail/top-mcc-online-store-merchant,BELUM TERVERIFIKASI,konten-config,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,Remote config key
+/api/configs/detail/umi-consent,BELUM TERVERIFIKASI,konten-config,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,Remote config key
+/api/configs/detail/webview-features,BELUM TERVERIFIKASI,konten-config,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,Remote config key
+/api/pages/welcome/banners,BELUM TERVERIFIKASI,konten-config,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/article/,BELUM TERVERIFIKASI,konten-config,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/articlegroup,BELUM TERVERIFIKASI,konten-config,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/articlegroup/,BELUM TERVERIFIKASI,konten-config,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,Varian trailing-slash
+/api/dynamic-webpage/contents/,BELUM TERVERIFIKASI,konten-config,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/search,BELUM TERVERIFIKASI,konten-config,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/search/common,BELUM TERVERIFIKASI,konten-config,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/v1/homepage,BELUM TERVERIFIKASI,konten-config,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/v1/homepage/components/banner,BELUM TERVERIFIKASI,konten-config,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/v1/homepage/components/bottom-bar,BELUM TERVERIFIKASI,konten-config,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/v1/homepage/components/business-task,BELUM TERVERIFIKASI,konten-config,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/v1/homepage/components/business-task/config,BELUM TERVERIFIKASI,konten-config,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/v1/homepage/components/menu-entry-group/,BELUM TERVERIFIKASI,konten-config,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/v1/homepage/components/menu-entry/,BELUM TERVERIFIKASI,konten-config,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/v1/homepage/components/shortcut,BELUM TERVERIFIKASI,konten-config,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/v1/homepage/components/user-task,BELUM TERVERIFIKASI,konten-config,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/v1/homepage/experiment/release/2,BELUM TERVERIFIKASI,konten-config,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/v1/promopage,BELUM TERVERIFIKASI,konten-config,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/v1/shortcut-catalog,BELUM TERVERIFIKASI,konten-config,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/v1/catalogpage,BELUM TERVERIFIKASI,konten-config,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,Laporan §5.2 tidak mendaftar grup ini; literal dari strings sesi
+/api/v1/user-tasks,BELUM TERVERIFIKASI,konten-config,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/v1/user-tasks/outlets,BELUM TERVERIFIKASI,konten-config,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/campaign-histories,BELUM TERVERIFIKASI,kampanye,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/campaigns/,BELUM TERVERIFIKASI,kampanye,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/campaigns/outlet-list,BELUM TERVERIFIKASI,kampanye,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/custom-campaigns,BELUM TERVERIFIKASI,kampanye,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,Laporan §5.2 tidak mendaftar grup ini; literal dari strings sesi
+/api/custom-campaigns/form,BELUM TERVERIFIKASI,kampanye,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,Laporan §5.2 tidak mendaftar grup ini; literal dari strings sesi
+/api/recommended-campaigns,BELUM TERVERIFIKASI,kampanye,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,Laporan §5.2 tidak mendaftar grup ini; literal dari strings sesi
+/api/v2/campaigns/,BELUM TERVERIFIKASI,kampanye,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,Laporan §5.2 tidak mendaftar grup ini; literal dari strings sesi
+/api/v1/affiliate/validate,BELUM TERVERIFIKASI,kampanye,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/v1/analytics/partner-id-mappings,BELUM TERVERIFIKASI,kampanye,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/consents/umi,BELUM TERVERIFIKASI,umkm,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/umi/eligibility,BELUM TERVERIFIKASI,umkm,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/v1/cico/cashout/withdraw,BELUM TERVERIFIKASI,cico,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/v1/cico/eligibility,BELUM TERVERIFIKASI,cico,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/v1/cico/state,BELUM TERVERIFIKASI,cico,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/partner/gomodal/auth,BELUM TERVERIFIKASI,pinjaman,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/partner/gomodal/consent,BELUM TERVERIFIKASI,pinjaman,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/products,BELUM TERVERIFIKASI,produk,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/products/,BELUM TERVERIFIKASI,produk,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,Varian trailing-slash
+/api/products/orders,BELUM TERVERIFIKASI,produk,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/products/orders/,BELUM TERVERIFIKASI,produk,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,Varian trailing-slash
+/api/products/orders/payments/,BELUM TERVERIFIKASI,produk,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/products/SOUNDBOX/outlets,BELUM TERVERIFIKASI,produk,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/v1/products/gopay-spiker/price,BELUM TERVERIFIKASI,produk,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/v1/devices/soundbox/adzan-config,BELUM TERVERIFIKASI,produk,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,Laporan §5.2 tidak mendaftar grup ini; literal dari strings sesi
+/api/v1/devices/soundbox/info,BELUM TERVERIFIKASI,produk,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,Laporan §5.2 tidak mendaftar grup ini; literal dari strings sesi
+/api/v1/devices/soundbox/voice,BELUM TERVERIFIKASI,produk,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,Laporan §5.2 tidak mendaftar grup ini; literal dari strings sesi
+/api/v1/subscriptions/soundbox/change-package,BELUM TERVERIFIKASI,produk,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/v1/subscriptions/soundbox/change-package/prices,BELUM TERVERIFIKASI,produk,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/shipping-addresses,BELUM TERVERIFIKASI,produk,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/shipping-addresses/,BELUM TERVERIFIKASI,produk,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,Varian trailing-slash
+/api/shipping-addresses/validate,BELUM TERVERIFIKASI,produk,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/shippings/supplier,BELUM TERVERIFIKASI,produk,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,Laporan §5.2 tidak mendaftar grup ini; literal dari strings sesi
+/api/roles,BELUM TERVERIFIKASI,lainnya,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,—
+/api/v1/roles,BELUM TERVERIFIKASI,lainnya,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,Laporan §5.2 tidak mendaftar grup ini; literal dari strings sesi
+/api/sales-assisted,BELUM TERVERIFIKASI,lainnya,BELUM TERVERIFIKASI,GoPay-only,ya (string statis),BELUM TERVERIFIKASI,Laporan §5.2 tidak mendaftar grup ini; literal dari strings sesi
+gofood/merchant/v1/config,BELUM TERVERIFIKASI,gofood-merchant,BELUM TERVERIFIKASI,GoFood-only,ya (string statis),BELUM TERVERIFIKASI,Tanpa slash depan (verbatim S3)
+/gofood/merchant/v2/ocr/catalog/predict,BELUM TERVERIFIKASI,gofood-merchant,BELUM TERVERIFIKASI,GoFood-only,ya (string statis),BELUM TERVERIFIKASI,OCR katalog
+/v1/edc/createtoken,BELUM TERVERIFIKASI,edc-kartu,BELUM TERVERIFIKASI,GoFood-only,ya (string statis),BELUM TERVERIFIKASI,PRIORITAS integrasi (EDC)
+/v2/charge,BELUM TERVERIFIKASI,edc-kartu,BELUM TERVERIFIKASI,GoFood-only,ya (string statis),BELUM TERVERIFIKASI,PRIORITAS integrasi; bandingkan charge GoPay (GOFOOD-TODO-NET-2)
+/v2/point_inquiry,BELUM TERVERIFIKASI,edc-kartu,BELUM TERVERIFIKASI,GoFood-only,ya (string statis),BELUM TERVERIFIKASI,—
+/v3/balance_inquiry,BELUM TERVERIFIKASI,edc-kartu,BELUM TERVERIFIKASI,GoFood-only,ya (string statis),BELUM TERVERIFIKASI,PRIORITAS integrasi
+/v2/order/{id}/channel,BELUM TERVERIFIKASI,edc-kartu,BELUM TERVERIFIKASI,GoFood-only,ya (string statis),BELUM TERVERIFIKASI,—
+/v2/{identifier}/status,BELUM TERVERIFIKASI,edc-kartu,BELUM TERVERIFIKASI,GoFood-only,ya (string statis),BELUM TERVERIFIKASI,—
+/v2/{identifier}/cancel,BELUM TERVERIFIKASI,edc-kartu,BELUM TERVERIFIKASI,GoFood-only,ya (string statis),BELUM TERVERIFIKASI,—
+/v2/{identifier}/reversal,BELUM TERVERIFIKASI,edc-kartu,BELUM TERVERIFIKASI,GoFood-only,ya (string statis),BELUM TERVERIFIKASI,—
+/v2/{transaction_id}/event/edc/metadata/{event_name},BELUM TERVERIFIKASI,edc-kartu,BELUM TERVERIFIKASI,GoFood-only,ya (string statis),BELUM TERVERIFIKASI,—
+/v3/settlement,BELUM TERVERIFIKASI,settlement,BELUM TERVERIFIKASI,GoFood-only,ya (string statis),BELUM TERVERIFIKASI,PRIORITAS integrasi
+/v3/auto-payout-settings/search,BELUM TERVERIFIKASI,settlement,BELUM TERVERIFIKASI,GoFood-only,ya (string statis),BELUM TERVERIFIKASI,—
+/v1/change_requests,BELUM TERVERIFIKASI,change-request,BELUM TERVERIFIKASI,GoFood-only,ya (string statis),BELUM TERVERIFIKASI,—
+/v3/change_requests,BELUM TERVERIFIKASI,change-request,BELUM TERVERIFIKASI,GoFood-only,ya (string statis),BELUM TERVERIFIKASI,—
+/v3/change_requests/search,BELUM TERVERIFIKASI,change-request,BELUM TERVERIFIKASI,GoFood-only,ya (string statis),BELUM TERVERIFIKASI,—
+/v3/change_requests/validate,BELUM TERVERIFIKASI,change-request,BELUM TERVERIFIKASI,GoFood-only,ya (string statis),BELUM TERVERIFIKASI,—
+/v3/change_requests/{container_id},BELUM TERVERIFIKASI,change-request,BELUM TERVERIFIKASI,GoFood-only,ya (string statis),BELUM TERVERIFIKASI,—
+/v3/status_mapping,BELUM TERVERIFIKASI,change-request,BELUM TERVERIFIKASI,GoFood-only,ya (string statis),BELUM TERVERIFIKASI,—
+/v3/addresses/update_requests,BELUM TERVERIFIKASI,change-request,BELUM TERVERIFIKASI,GoFood-only,ya (string statis),BELUM TERVERIFIKASI,—
+/v3/addresses/update_requests/{id},BELUM TERVERIFIKASI,change-request,BELUM TERVERIFIKASI,GoFood-only,ya (string statis),BELUM TERVERIFIKASI,—
+/v3/outlet_profiles/update_requests,BELUM TERVERIFIKASI,change-request,BELUM TERVERIFIKASI,GoFood-only,ya (string statis),BELUM TERVERIFIKASI,—
+/v3/outlet_profiles/update_requests/{facet_id},BELUM TERVERIFIKASI,change-request,BELUM TERVERIFIKASI,GoFood-only,ya (string statis),BELUM TERVERIFIKASI,—
+/v3/{facet_path}/config,BELUM TERVERIFIKASI,change-request,BELUM TERVERIFIKASI,GoFood-only,ya (string statis),BELUM TERVERIFIKASI,—
+/use_cases/v1/processes,BELUM TERVERIFIKASI,workflow,BELUM TERVERIFIKASI,GoFood-only,ya (string statis),BELUM TERVERIFIKASI,Mesin workflow onboarding
+/use_cases/v1/processes/{namespace}/{flow_name}/init,BELUM TERVERIFIKASI,workflow,BELUM TERVERIFIKASI,GoFood-only,ya (string statis),BELUM TERVERIFIKASI,—
+/use_cases/v1/processes/{process_id},BELUM TERVERIFIKASI,workflow,BELUM TERVERIFIKASI,GoFood-only,ya (string statis),BELUM TERVERIFIKASI,—
+/use_cases/v1/processes/{process_id}/interactions/0,BELUM TERVERIFIKASI,workflow,BELUM TERVERIFIKASI,GoFood-only,ya (string statis),BELUM TERVERIFIKASI,—
+/use_cases/v1/processes/{process_id}/steps/AddBankAccountDetails,BELUM TERVERIFIKASI,workflow,BELUM TERVERIFIKASI,GoFood-only,ya (string statis),BELUM TERVERIFIKASI,—
+/use_cases/v1/processes/{process_id}/steps/AddOutletDetails,BELUM TERVERIFIKASI,workflow,BELUM TERVERIFIKASI,GoFood-only,ya (string statis),BELUM TERVERIFIKASI,—
+/use_cases/v1/processes/{process_id}/steps/ProductEligibility,BELUM TERVERIFIKASI,workflow,BELUM TERVERIFIKASI,GoFood-only,ya (string statis),BELUM TERVERIFIKASI,—
+/use_cases/v1/processes/{process_id}/steps/SelectProduct,BELUM TERVERIFIKASI,workflow,BELUM TERVERIFIKASI,GoFood-only,ya (string statis),BELUM TERVERIFIKASI,—
+/use_cases/v1/processes/{process_id}/steps/SubmitKYC,BELUM TERVERIFIKASI,workflow,BELUM TERVERIFIKASI,GoFood-only,ya (string statis),BELUM TERVERIFIKASI,—
+/use_cases/v1/processes/{process_id}/steps/SubmitOnboardingData,BELUM TERVERIFIKASI,workflow,BELUM TERVERIFIKASI,GoFood-only,ya (string statis),BELUM TERVERIFIKASI,—
+/use_cases/v1/processes/{process_id}/steps/ValidateBankAccountDetails,BELUM TERVERIFIKASI,workflow,BELUM TERVERIFIKASI,GoFood-only,ya (string statis),BELUM TERVERIFIKASI,—
+/use_cases/v1/processes/{process_id}/steps/{step_name},BELUM TERVERIFIKASI,workflow,BELUM TERVERIFIKASI,GoFood-only,ya (string statis),BELUM TERVERIFIKASI,—
+/public/workflow/v1/change-bank-account/account-check/inquiry,BELUM TERVERIFIKASI,workflow,BELUM TERVERIFIKASI,GoFood-only,ya (string statis),BELUM TERVERIFIKASI,—
+/public/workflow/v1/change-bank-account/precheck/inquiry,BELUM TERVERIFIKASI,workflow,BELUM TERVERIFIKASI,GoFood-only,ya (string statis),BELUM TERVERIFIKASI,—
+/public/workflow/v1/change-bank-account/store-account/submit,BELUM TERVERIFIKASI,workflow,BELUM TERVERIFIKASI,GoFood-only,ya (string statis),BELUM TERVERIFIKASI,—
+/public/workflow/v1/change-bank-account/store-account/{id}/commit,BELUM TERVERIFIKASI,workflow,BELUM TERVERIFIKASI,GoFood-only,ya (string statis),BELUM TERVERIFIKASI,—
+/v1/onboardings/upload_url,BELUM TERVERIFIKASI,workflow,BELUM TERVERIFIKASI,GoFood-only,ya (string statis),BELUM TERVERIFIKASI,—
+/v3/documents/upload_url,BELUM TERVERIFIKASI,workflow,BELUM TERVERIFIKASI,GoFood-only,ya (string statis),BELUM TERVERIFIKASI,—
+/v1/individual-entity-gfma/{execution_id},BELUM TERVERIFIKASI,workflow,BELUM TERVERIFIKASI,GoFood-only,ya (string statis),BELUM TERVERIFIKASI,—
+/v1/individual-entity-gfma/{execution_id}/product-eligibility,BELUM TERVERIFIKASI,workflow,BELUM TERVERIFIKASI,GoFood-only,ya (string statis),BELUM TERVERIFIKASI,—
+/v1/individual-entity-gfma/{execution_id}/select-product,BELUM TERVERIFIKASI,workflow,BELUM TERVERIFIKASI,GoFood-only,ya (string statis),BELUM TERVERIFIKASI,—
+/v1/individual-entity-gfma/{execution_id}/submit-kyc,BELUM TERVERIFIKASI,workflow,BELUM TERVERIFIKASI,GoFood-only,ya (string statis),BELUM TERVERIFIKASI,—
+/v3/register,BELUM TERVERIFIKASI,workflow,BELUM TERVERIFIKASI,GoFood-only,ya (string statis),BELUM TERVERIFIKASI,—
+/v1/users/validate_eligibility,BELUM TERVERIFIKASI,workflow,BELUM TERVERIFIKASI,GoFood-only,ya (string statis),BELUM TERVERIFIKASI,—
+/v1/chat/profiles/me,BELUM TERVERIFIKASI,chat-device,BELUM TERVERIFIKASI,GoFood-only,ya (string statis),BELUM TERVERIFIKASI,—
+/v3/chat/channels/{id},BELUM TERVERIFIKASI,chat-device,BELUM TERVERIFIKASI,GoFood-only,ya (string statis),BELUM TERVERIFIKASI,—
+/v1/devices/push_token,BELUM TERVERIFIKASI,chat-device,BELUM TERVERIFIKASI,GoFood-only,ya (string statis),BELUM TERVERIFIKASI,Realtime via FCM (GOFOOD-TODO-NET-3)
+/v1/instantfeedback,BELUM TERVERIFIKASI,chat-device,BELUM TERVERIFIKASI,GoFood-only,ya (string statis),BELUM TERVERIFIKASI,—
+/v1/instantfeedback/{channel_name},BELUM TERVERIFIKASI,chat-device,BELUM TERVERIFIKASI,GoFood-only,ya (string statis),BELUM TERVERIFIKASI,—
+/v1/api/article/{id},BELUM TERVERIFIKASI,konten-config,BELUM TERVERIFIKASI,GoFood-only,ya (string statis),BELUM TERVERIFIKASI,—
+/v1/api/feedback/reasons,BELUM TERVERIFIKASI,konten-config,BELUM TERVERIFIKASI,GoFood-only,ya (string statis),BELUM TERVERIFIKASI,—
+/v1/api/feedback/submit,BELUM TERVERIFIKASI,konten-config,BELUM TERVERIFIKASI,GoFood-only,ya (string statis),BELUM TERVERIFIKASI,—
+/v1/api/nanoarticle,BELUM TERVERIFIKASI,konten-config,BELUM TERVERIFIKASI,GoFood-only,ya (string statis),BELUM TERVERIFIKASI,—
+/v1/api/search,BELUM TERVERIFIKASI,konten-config,BELUM TERVERIFIKASI,GoFood-only,ya (string statis),BELUM TERVERIFIKASI,—
+/v1/api/search/common,BELUM TERVERIFIKASI,konten-config,BELUM TERVERIFIKASI,GoFood-only,ya (string statis),BELUM TERVERIFIKASI,—
+/v2/api/articlegroup,BELUM TERVERIFIKASI,konten-config,BELUM TERVERIFIKASI,GoFood-only,ya (string statis),BELUM TERVERIFIKASI,—
+/v2/api/articlegroup/{id},BELUM TERVERIFIKASI,konten-config,BELUM TERVERIFIKASI,GoFood-only,ya (string statis),BELUM TERVERIFIKASI,—
+/v3/api/articlegroup,BELUM TERVERIFIKASI,konten-config,BELUM TERVERIFIKASI,GoFood-only,ya (string statis),BELUM TERVERIFIKASI,—
+/ui/v1/app/{merchantId}/conversion_funnel_page,BELUM TERVERIFIKASI,konten-config,BELUM TERVERIFIKASI,GoFood-only,ya (string statis),BELUM TERVERIFIKASI,—
+/v1/payments/search,BELUM TERVERIFIKASI,payments,BELUM TERVERIFIKASI,GoFood-only,ya (string statis),BELUM TERVERIFIKASI,PRIORITAS integrasi; lintas-app? (pertanyaan terbuka #1)

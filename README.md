@@ -155,6 +155,16 @@ Full endpoint research (repos surveyed + anonymized HAR verification):
 `research/ANALYSIS_SHOPEEPAY_PHASE_B.md`. Per-service pages: `docs/gopay/`,
 `docs/shopee/`.
 
+**APK research knowledge base** (GoPay Merchant 2.3.0 + GoFood Merchant 5.49.0
+— ±240 endpoints, hosts, deeplinks, masked security findings):
+
+- 📚 Start here: [KB index](docs/KB_QRIS_MERCHANT_INDEX.md) · machine-readable
+  data in [`reference/`](reference/) · [agent guide](docs/KB_QRIS_MERCHANT_AGENT_GUIDE.md)
+- 🔁 Reproduce it yourself / port to another language:
+  [APK research reproduction guide](docs/APK_RESEARCH_REPRODUCTION_GUIDE.md)
+- 🛡️ Security researchers & vendors:
+  [responsible disclosure](docs/SECURITY_DISCLOSURE.md) (also see [SECURITY.md](SECURITY.md))
+
 ## Credits
 
 API knowledge: [kavionn/gobiz-payment](https://github.com/kavionn/gobiz-payment),
