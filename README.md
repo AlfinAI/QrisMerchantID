@@ -196,6 +196,7 @@ Questions, bug reports, or research collaboration — reach me on Telegram:
 If this project saves you time, consider sponsoring — it keeps the research going:
 
 [![Sponsor](https://img.shields.io/badge/Sponsor-AlfinAI-ea4aaa?logo=githubsponsors)](https://github.com/sponsors/AlfinAI)
+🇮🇩 Indonesia: [Saweria](https://saweria.co/JoestarMojoTele)
 
 ## License
 
