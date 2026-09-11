@@ -39,6 +39,12 @@ def test_inject_amount_replaces_existing_tag_54():
     assert qris.crc16_ccitt(twice[:-4]) == twice[-4:]
 
 
+def test_inject_amount_places_tag_54_after_53():
+    tags = [t for t, _ in qris.parse(qris.inject_amount(STATIC, 50000))]
+    assert tags.index("54") == tags.index("53") + 1  # numeric order, like the ref gateway
+    assert tags[-1] == "63"
+
+
 def test_inject_amount_rejects_bad_amounts():
     for bad in (0, -5, "50000", 50.0, True, None):
         with pytest.raises(ValueError):

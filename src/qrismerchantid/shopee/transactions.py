@@ -53,7 +53,7 @@ class TransactionsService:
 
         Returns ``{"transactions", "pages_fetched", "truncated"}``. Each
         transaction is ``{id, order_id, amount_idr, create_time, create_time_iso,
-        store_id, merchant_id, status, completed, payment_type, raw}``.
+        store_id, merchant_id, status, status_name, completed, payment_type, raw}``.
         Malformed or out-of-scope rows are skipped, never guessed.
         """
         end = end_time if end_time is not None else int(time.time())
@@ -106,6 +106,25 @@ class TransactionsService:
             "truncated": bool(next_position),
         }
 
+    def transaction_detail(self, order_sn: str) -> dict[str, Any]:
+        """Fetch one transaction's detail row — the only issuer source.
+
+        Ports the deobfuscated ``server.js`` ``f21`` lookup: ``order_sn`` is the
+        row's ``displayTransactionId`` (falling back to ``transactionId``), and
+        the answer lives at ``data.issuer`` (e.g. ``"SeaBank"``, ``"OVO"``).
+
+        Returns ``{"order_sn": ..., "issuer": ... | None, "raw": data}``.
+
+        Raises:
+            ValueError: ``order_sn`` is blank or not a string.
+            ApiException: the envelope answered ``code != 0``.
+        """
+        if not isinstance(order_sn, str) or not order_sn.strip():
+            raise ValueError("Shopee transaction_detail needs a non-blank order_sn")
+        data = self._client.post_payment(C.ENDPOINT_TRANSACTION_DETAIL, {"order_sn": order_sn})
+        issuer = data.get("issuer")
+        return {"order_sn": order_sn, "issuer": issuer if isinstance(issuer, str) else None, "raw": data}
+
 
 def _normalize(raw: Any, want_store: str, want_merchant: str | None) -> dict[str, Any] | None:
     if not isinstance(raw, dict):
@@ -134,6 +153,7 @@ def _normalize(raw: Any, want_store: str, want_merchant: str | None) -> dict[str
     status = raw.get("status")
     status = status if isinstance(status, int) and not isinstance(status, bool) else -1
     completed = status == C.COMPLETED_STATUS
+    status_name = C.STATUS_NAMES.get(status, f"unknown_{status}")
     service = raw.get("service", raw.get("transactionType", "unknown"))
     order_id = raw.get("externalTransactionId") or raw.get("displayTransactionId") or tx_id
     return {
@@ -145,6 +165,7 @@ def _normalize(raw: Any, want_store: str, want_merchant: str | None) -> dict[str
         "store_id": want_store,
         "merchant_id": merchant,
         "status": status,
+        "status_name": status_name,
         "completed": completed,
         "payment_type": f"shopee:{service}",
         "raw": raw,

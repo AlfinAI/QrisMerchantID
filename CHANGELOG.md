@@ -3,6 +3,14 @@
 ## [Unreleased]
 
 ### Added
+- ShopeePay: `transactions.transaction_detail(order_sn)` — issuer lookup via
+  `get-transaction-detail` (shape deobfuscated from the zaki gateway
+  `server.js`); normalized rows gain `status_name`
+  (`{1:pending, 2:failed, 3:success, 4:refunded, 5:expired}`); research
+  TODO-S2/S4 closed (`ANALYSIS_SHOPEEPAY_PHASE_B.md`). Runtime proof stays
+  TODO-S1.
+
+### Added (previous)
 - FASE A0: project scaffold — `core` (transport, exceptions, token cache),
   offline test harness, CI (test + trusted-publish workflows), governance docs.
 - FASE A1: GoPay provider — `GoPayMerchant` facade with `auth` (password + OTP

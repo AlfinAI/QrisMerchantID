@@ -131,3 +131,39 @@ def test_reversed_range_rejected_and_page_size_clamped():
     assert fake.last_json["data"]["pageSize"] == 10
     _partner(fake).transactions.list_recent(7, page_size=0)
     assert fake.last_json["data"]["pageSize"] == 1
+
+
+def test_status_name_mapping_and_unknown():
+    feed = _feed([{**ROW, "status": 4}, {**ROW, "transactionId": "x", "status": 9}])
+    txns = _partner(FakeHttpClient(feed)).transactions.list_recent(7)["transactions"]
+    assert [(t["status"], t["status_name"]) for t in txns] == [(4, "refunded"), (9, "unknown_9")]
+    (ok,) = _partner(FakeHttpClient(_feed([ROW]))).transactions.list_recent(7)["transactions"]
+    assert ok["status_name"] == "success"
+
+
+def _detail(issuer="SeaBank", code=0, msg="ok"):
+    return (200, {"code": code, "msg": msg, "data": {"issuer": issuer} if code == 0 else {}})
+
+
+def test_transaction_detail_returns_issuer():
+    fake = FakeHttpClient(_detail("OVO"))
+    out = _partner(fake).transactions.transaction_detail("DSP-1")
+    assert out == {"order_sn": "DSP-1", "issuer": "OVO", "raw": {"issuer": "OVO"}}
+    assert fake.last_json["data"]["order_sn"] == "DSP-1"
+
+
+def test_transaction_detail_missing_issuer_is_none():
+    fake = FakeHttpClient((200, {"code": 0, "msg": "ok", "data": {}}))
+    out = _partner(fake).transactions.transaction_detail("264693445089687719")
+    assert out["issuer"] is None
+
+
+def test_transaction_detail_rejects_blank_order_sn_and_api_errors():
+    sp = _partner(FakeHttpClient(_detail()))
+    for bad in ("", "   ", None, 123):
+        with pytest.raises(ValueError, match="order_sn"):
+            sp.transactions.transaction_detail(bad)
+    from qrismerchantid.core.exceptions import ApiException
+
+    with pytest.raises(ApiException):
+        _partner(FakeHttpClient(_detail(code=200020, msg="bad token"))).transactions.transaction_detail("x")

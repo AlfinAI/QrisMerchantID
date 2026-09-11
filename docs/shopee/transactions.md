@@ -18,11 +18,22 @@ Each transaction is normalized:
     "store_id": "7",
     "merchant_id": "42",
     "status": 3,
+    "status_name": "success",   # {1:pending, 2:failed, 3:success, 4:refunded, 5:expired}
     "completed": True,            # only status == 3 counts
     "payment_type": "shopee:1",
     "raw": {...},                 # untouched wire row
 }
 ```
+
+## Issuer lookup
+
+```python
+detail = sp.transactions.transaction_detail("DSP-1")  # displayTransactionId, or transactionId
+# -> {"order_sn": "DSP-1", "issuer": "SeaBank", "raw": {...}}
+```
+
+Resolves the paying channel via `get-transaction-detail` (`issuer` is `None`
+when the wire omits it). Enriches a feed row after a watcher match.
 
 ## Money: whole rupiah, Indonesian grouping
 

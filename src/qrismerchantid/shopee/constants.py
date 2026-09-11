@@ -2,8 +2,9 @@
 
 Sources: ``alhifnywahid/merchantid`` v0.1.1 (``src/providers/shopee/``:
 ``constants.ts``, ``api.ts``, ``httpClient.ts``, ``transactionFeed.ts``,
-``merchantClient.ts``) + ``ahmadzakiyox/shoppepay-api-gateway`` README (token
-shape, endpoint paths). Runtime re-verification against a live partner account
+``merchantClient.ts``) + ``ahmadzakiyox/shoppepay-api-gateway`` README +
+deobfuscated ``server.js`` (token shape, endpoint paths, status map, issuer
+detail shape). Runtime re-verification against a live partner account
 is TODO-S1.
 """
 
@@ -18,6 +19,7 @@ PARTNER_REFERER = "https://partner.shopee.co.id/"
 
 ENDPOINT_STORES = "/merchant/v1/partner-web/get-store-list"
 ENDPOINT_TRANSACTIONS = "/merchant/v1/partner-web/get-transaction-list"
+ENDPOINT_TRANSACTION_DETAIL = "/merchant/v1/partner-web/get-transaction-detail"
 
 # Verified caps: transaction pages larger than 10 are clamped by the client.
 TRANSACTION_PAGE_SIZE = 10
@@ -27,6 +29,9 @@ STORE_SERVICES = (1, 10)
 
 # The only completed status observed in the wild (merchantid + zaki gateway).
 COMPLETED_STATUS = 3
+# Full status map from the deobfuscated `server.js` `f` display functions
+# (pending/failed/success/refunded/expired) — needs live re-verification (TODO-S1).
+STATUS_NAMES = {1: "pending", 2: "failed", 3: "success", 4: "refunded", 5: "expired"}
 
 # Payment-envelope codes meaning "this session is dead, renew it" (terminal —
 # never retry; the caller needs a fresh ``B:`` token or a new login).

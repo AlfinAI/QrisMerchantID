@@ -129,6 +129,12 @@ Body:
   storeId, service, amount: "409.662" (STRING grup-ID!), status: 3,
   transactionType, merchantId}`.
 - **status `3` = satu-satunya completed yang terobservasi.**
+- Map status lengkap dari `server.js` ter-deobfuscate: `{1: pending, 2: failed,
+  3: success, 4: refunded, 5: expired}` → kolom `status_name` (TODO-S4 CLOSED).
+- Detail issuer: `GET get-transaction-detail?order_sn=<displayTransactionId ||
+  transactionId>` → `data.issuer` (TODO-S2 CLOSED; runtime = TODO-S1). zaki
+  mengirim `pageSize: 100` — KAMI TETAP 10 (100 belum terverifikasi, §7).
+- Respons list juga membawa `totalNetSales` (agregat, bukan per-row).
 - **Amount = rupiah utuh berformat Indonesia**: `"409.662"` → 409662;
   `"1008"` → 1008. Parser: terima `^\d+$` atau `^\d{1,3}(\.\d{3})+$`, strip titik.
   Selain itu = undefined (jangan crash-kan polling!).
@@ -186,7 +192,7 @@ Kode penting: `48401102` NeedOTP (password OK), `48500102` not-login,
 | Host feed | `shopeepay.shopee.co.id` | sama | ✅ |
 | Token | body `data.metadata.token`, prefix `B:` | `SHOPEE_TOKEN=B:…`, cara curi via DevTools | ✅ |
 | Endpoint list | `get-transaction-list` | sama | ✅ |
-| Endpoint detail (issuer) | — (tidak ada) | `get-transaction-detail` → issuer (Seabank/OVO/DANA/BCA) | 🆕 hanya zaki (TODO-S3: shape mentah belum terlihat — kode obfuscated!) |
+| Endpoint detail (issuer) | — (tidak ada) | `get-transaction-detail` → issuer (Seabank/OVO/DANA/BCA) | ✅ shape terungkap dari `server.js` ter-deobfuscate (TODO-S2 CLOSED) |
 | `transactionId` 18 digit | `transactionId: string` | `"264693445089687719"` | ✅ |
 | Amount grup-ID | parser `"409.662"` | `total_amount: "409.662"` | ✅ |
 | QRIS dinamis | Tag EMV inject (src/qris) | Tag `54` + CRC16 + expiry 15 mnt | ✅ konsep sama |
@@ -196,11 +202,11 @@ Kode penting: `48401102` NeedOTP (password OK), `48500102` not-login,
 ## 8. Gap & TODO-S (butuh akun Partner untuk verifikasi)
 
 - TODO-S1: verifikasi runtime SEMUA endpoint (butuh akun ShopeePay Partner + nomor WA).
-- TODO-S2: shape mentah `get-transaction-detail` (parameter + respons) — hanya zaki
-  yang menyebutnya dan kodenya obfuscated. Alternatif: capture DevTools sendiri.
+- TODO-S2: ✅ CLOSED 2026-09-11 — shape `get-transaction-detail` terungkap dari
+  `server.js` (`order_sn` → `data.issuer`); sisa verifikasi runtime = TODO-S1.
 - TODO-S3: `verify_otp` grouped-phone + NEED_OTP path — verifikasi live saat B2.
-- TODO-S4: daftar lengkap `status` transaksi selain `3` (1,2,4,5 terpetakan zaki
-  sebagai string obfuscated — tidak terbaca; amati live).
+- TODO-S4: ✅ CLOSED 2026-09-11 — map `{1: pending, 2: failed, 3: success,
+  4: refunded, 5: expired}` dari `server.js`; kolom `status_name` shipped.
 
 ## 9. Rencana build
 
