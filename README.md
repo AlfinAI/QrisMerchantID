@@ -191,6 +191,12 @@ Python package maintained by AlfinAI.
 Questions, bug reports, or research collaboration — reach me on Telegram:
 **[@JoestarMojo](https://t.me/JoestarMojo)**.
 
+## Sponsor
+
+If this project saves you time, consider sponsoring — it keeps the research going:
+
+[![Sponsor](https://img.shields.io/badge/Sponsor-AlfinAI-ea4aaa?logo=githubsponsors)](https://github.com/sponsors/AlfinAI)
+
 ## License
 
 MIT — see [LICENSE](LICENSE).
