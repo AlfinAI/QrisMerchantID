@@ -12,7 +12,7 @@ BASE_URL = "https://api.gobiz.co.id"
 ANALYTICS_BASE_URL = "https://api.gojekapi.com"
 CLIENT_ID = "go-biz-web-new"
 APP_ID = "go-biz-web-dashboard"
-APP_VERSION = "platform-v3.119.0-eab7f749"  # observed live Sep 2026 (HAR §9.2)
+APP_VERSION = "platform-v3.122.0-72edb090"  # observed live 2026-09-19 (GOTO.har §9.4)
 PORTAL_ORIGIN = "https://portal.gofoodmerchant.co.id"
 USER_AGENT = (
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) "
