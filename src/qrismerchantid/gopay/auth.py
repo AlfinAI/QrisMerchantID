@@ -7,7 +7,7 @@ closes TODO-R1).
 
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, Literal
 
 from qrismerchantid.gopay import constants as C
 from qrismerchantid.gopay.client import GoPayClient
@@ -101,3 +101,40 @@ class AuthService:
         )
         self._client.set_access_token(str(session["access_token"]))
         return session
+
+    def login(
+        self,
+        method: Literal["otp", "email"] = "otp",
+        *,
+        phone_number: str | None = None,
+        email: str | None = None,
+        password: str | None = None,
+        otp: str | None = None,
+        otp_token: str | None = None,
+        country_code: str = "62",
+    ) -> dict[str, Any]:
+        """One entry point for both login methods — pick with ``method``.
+
+        - ``method="email"``: one step. Needs ``email`` + ``password`` (both must
+          already be set on the merchant account) → returns the session.
+        - ``method="otp"``: two steps. Step 1 needs ``phone_number`` → returns the
+          OTP data (keep ``otp_token`` for step 2). Step 2 needs ``otp`` +
+          ``otp_token`` → returns the session.
+
+        Successful logins set the client's bearer token. Raises ``ValueError``
+        for an unknown method or missing arguments; the granular ``ValueError`` /
+        ``ApiException`` rules of the underlying calls apply.
+        """
+        if method == "email":
+            if email is None or password is None:
+                raise ValueError("Email login needs email= and password=")
+            return self.login_with_password(email, password)
+        if method == "otp":
+            if otp is not None or otp_token is not None:
+                if otp is None or otp_token is None:
+                    raise ValueError("OTP step 2 needs otp= and otp_token= (from step 1)")
+                return self.login_with_otp(otp, otp_token)
+            if phone_number is None:
+                raise ValueError("OTP step 1 needs phone_number=")
+            return self.request_otp(phone_number, country_code)
+        raise ValueError(f"Unknown login method {method!r}: pick 'otp' or 'email'")

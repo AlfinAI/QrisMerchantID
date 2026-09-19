@@ -15,6 +15,12 @@ and require the full device header set (handled by the client).
 ## SDK
 
 ```python
+# Unified: pick method="otp" (2 steps) or method="email" (1 step)
+otp = gopay.auth.login(method="otp", phone_number="0812xxxxxxx")
+session = gopay.auth.login(method="otp", otp=code, otp_token=otp["otp_token"])
+session = gopay.auth.login(method="email", email=email, password=password)
+
+# Granular (same steps, individual calls):
 otp = gopay.auth.request_otp("0812xxxxxxx")          # -> data object (not full body)
 session = gopay.auth.login_with_otp(code, otp["otp_token"])
 session = gopay.auth.login_with_password(email, password)

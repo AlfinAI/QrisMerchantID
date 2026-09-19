@@ -15,6 +15,8 @@
 
 ### Added
 
+- GoPay: `auth.login(method="otp"|"email", ...)` — one entry point with an explicit login-method
+  choice (OTP stays two-step, email is one step).
 - ShopeePay: `transactions.transaction_detail(order_sn)` — issuer lookup via
   `get-transaction-detail` (shape deobfuscated from the zaki gateway `server.js`); normalized rows
   gain `status_name` (`{1:pending, 2:failed, 3:success, 4:refunded, 5:expired}`); research

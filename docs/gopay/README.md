@@ -24,16 +24,19 @@ Service pages: [auth](auth.md) · [merchants](merchants.md) · [transactions](tr
 GoBiz (GoID) login answers **HTTP 201** on success. Two flows:
 
 ```python
-# --- OTP (recommended: no password stored anywhere) ---
-otp = gopay.auth.request_otp("0812xxxxxxx")  # SMS, 4 digits, ~12 min window
+# --- One call, two methods: method="otp" (default) or method="email" ---
+otp = gopay.auth.login(method="otp", phone_number="0812xxxxxxx")
 # otp -> {"otp_token", "otp_expires_in", "otp_length", "next_state"}
-session = gopay.auth.login_with_otp(input("OTP: "), otp["otp_token"])
+session = gopay.auth.login(method="otp", otp=input("OTP: "), otp_token=otp["otp_token"])
 
-# --- Password (verified live §9.5; needs email+password set in portal) ---
-session = gopay.auth.login_with_password("you@shop.id", "secret")
+# --- Email: one step (needs email+password set in portal, verified live §9.5) ---
+session = gopay.auth.login(method="email", email="you@shop.id", password="secret")
 
 session  # -> {"access_token", "refresh_token", ...} — also set on the client
 ```
+
+Prefer granular calls? `request_otp()` / `login_with_otp()` / `login_with_password()` do the
+same steps individually — see [auth.md](auth.md).
 
 Notes (all verified against a live portal capture, research §9):
 

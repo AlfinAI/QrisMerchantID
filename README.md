@@ -98,10 +98,11 @@ Three things to understand before anything else:
 ```python
 from qrismerchantid import GoPayMerchant, ShopeePayPartner
 
-# --- GoPay: OTP login (or login_with_password), then read your history ---
+# --- GoPay: pick OTP or email login, then read your history ---
 gopay = GoPayMerchant()
-otp = gopay.auth.request_otp("0812xxxxxxx")
-session = gopay.auth.login_with_otp(input("OTP: "), otp["otp_token"])
+otp = gopay.auth.login(method="otp", phone_number="0812xxxxxxx")
+session = gopay.auth.login(method="otp", otp=input("OTP: "), otp_token=otp["otp_token"])
+# ...or one step: gopay.auth.login(method="email", email="you@shop.id", password="secret")
 txns = gopay.transactions.analytics("G...", days=7)
 print(txns["total"], "transactions")
 

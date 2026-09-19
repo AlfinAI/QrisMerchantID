@@ -111,3 +111,41 @@ def test_login_with_password_strips_email_per_live_har():
     first, second = fake.calls
     assert json.loads(first["body"])["email"] == "Owner@Toko.id"
     assert json.loads(second["body"])["data"] == {"email": "Owner@Toko.id", "password": "s3cret"}
+
+
+def test_login_dispatches_to_email_flow():
+    fake = FakeHttpClient()
+    fake.add_route("POST", "/goid/login/request", 201, {"data": {}, "success": True})
+    fake.add_route("POST", "/goid/token", 201, {"access_token": "AT", "refresh_token": "RT"})
+    gopay = GoPayMerchant(transport=fake)
+    session = gopay.auth.login(method="email", email="owner@toko.id", password="s3cret")
+    assert session["access_token"] == "AT"
+    assert gopay.client.api_headers()["Authorization"] == "Bearer AT"
+    assert len(fake.calls) == 2
+
+
+def test_login_otp_two_steps_with_default_method():
+    fake = FakeHttpClient()
+    otp_data = {"otp_token": "OT", "otp_expires_in": 720}
+    fake.add_route("POST", "/goid/login/request", 201, {"data": otp_data, "success": True})
+    fake.add_route("POST", "/goid/token", 201, {"access_token": "AT", "refresh_token": "RT"})
+    gopay = GoPayMerchant(transport=fake)
+    assert gopay.auth.login(phone_number="085876543210") == otp_data  # default method="otp"
+    assert json.loads(fake.calls[0]["body"])["phone_number"] == "85876543210"
+    session = gopay.auth.login(method="otp", otp="1234", otp_token="OT")
+    assert session["access_token"] == "AT"
+    assert gopay.client.api_headers()["Authorization"] == "Bearer AT"
+
+
+def test_login_rejects_unknown_method_and_missing_args():
+    gopay = GoPayMerchant(transport=FakeHttpClient((201, {"success": True})))
+    with pytest.raises(ValueError, match="pick 'otp' or 'email'"):
+        gopay.auth.login(method="sms", phone_number="085876543210")
+    with pytest.raises(ValueError, match="phone_number"):
+        gopay.auth.login(method="otp")
+    with pytest.raises(ValueError, match="otp_token"):
+        gopay.auth.login(method="otp", otp="1234")
+    with pytest.raises(ValueError, match="email"):
+        gopay.auth.login(method="email", password="x")
+    with pytest.raises(ValueError, match="password"):
+        gopay.auth.login(method="email", email="a@b.id")
