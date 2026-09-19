@@ -10,20 +10,19 @@ paid = watcher.wait_for_payment(409662, timeout=300, tolerance=100)
 # -> normalized tx dict (completed only); raises TimeoutError on lapse
 ```
 
-Dedup keys: `id` → `order_id` → `time_amount` fallback. Only `completed`
-transactions match — pending rows never settle an invoice.
+Dedup keys: `id` → `order_id` → `time_amount` fallback. Only `completed` transactions match —
+pending rows never settle an invoice.
 
 ## Gateway recipe
 
-1. `qris.inject_amount(static_qris, bill)` (+ unique code Rp1–99) → show QR.
-   (Reuse `qrismerchantid.gopay.qris` — EMVCo injection is provider-agnostic.)
+1. `qris.inject_amount(static_qris, bill)` (+ unique code Rp1–99) → show QR. (Reuse
+   `qrismerchantid.gopay.qris` — EMVCo injection is provider-agnostic.)
 2. `watcher.seed()` when the checkout opens.
-3. `wait_for_payment(bill_idr, timeout=300)` → on success, record the `id` /
-   `order_id` in YOUR database and reject replays; on `TimeoutError`, expire
-   the invoice.
+3. `wait_for_payment(bill_idr, timeout=300)` → on success, record the `id` / `order_id` in YOUR
+   database and reject replays; on `TimeoutError`, expire the invoice.
 
 ## Etiquette
 
-Poll only while a checkout is active (~10s cadence) — the reference gateway
-scales requests with active buyers and sends zero when the shop is quiet.
-Hammering the feed is how tokens get rate-limited.
+Poll only while a checkout is active (~10s cadence) — the reference gateway scales requests with
+active buyers and sends zero when the shop is quiet. Hammering the feed is how tokens get
+rate-limited.

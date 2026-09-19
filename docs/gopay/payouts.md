@@ -1,7 +1,7 @@
 # GoPay payouts — history + payable balance
 
-HAR-discovered endpoints (research §9.3) — absent from every reference repo.
-Amounts are **decimal strings in minor units** (`"11610000.0"` = Rp116.000).
+HAR-discovered endpoints (research §9.3) — absent from every reference repo. Amounts are **decimal
+strings in minor units** (`"11610000.0"` = Rp116.000).
 
 ## `list()` — `GET /v1/merchants/payouts?page&per`
 

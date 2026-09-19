@@ -2,9 +2,8 @@
 
 [← back to main README](../../README.md)
 
-Manual-token provider (B1): paste a `B:...` token from your own portal session,
-then one facade sharing a single client. Programmatic OTP login arrives in
-FASE B2.
+Manual-token provider (B1): paste a `B:...` token from your own portal session, then one facade
+sharing a single client. Programmatic OTP login arrives in FASE B2.
 
 ```python
 from qrismerchantid import ShopeePayPartner
@@ -37,18 +36,16 @@ session = sp.auth.refresh_session(session)   # raises when only a fresh OTP reco
 sp.set_token(session["token"])
 ```
 
-Multi-merchant accounts without `merchant_id=` stop at
-`"merchant-selection-required"` — show `outcome["merchants"]`, then
-`sp.auth.complete_login(outcome["verification"], merchant_id=...)`. No second
-OTP needed. Full guide: [auth.md](auth.md).
+Multi-merchant accounts without `merchant_id=` stop at `"merchant-selection-required"` — show
+`outcome["merchants"]`, then `sp.auth.complete_login(outcome["verification"], merchant_id=...)`. No
+second OTP needed. Full guide: [auth.md](auth.md).
 
-> **OTP delivery needs telemetry.** Without a `device_report` blob the issuer
-> returns a degraded risk token and Shopee silently withholds the code. Capture
-> the blob from YOUR own browser — [device-risk.md](device-risk.md). No shared
-> blob is shipped with this package, deliberately.
+> **OTP delivery needs telemetry.** Without a `device_report` blob the issuer returns a degraded
+> risk token and Shopee silently withholds the code. Capture the blob from YOUR own browser —
+> [device-risk.md](device-risk.md). No shared blob is shipped with this package, deliberately.
 
-Alternative: paste a manual `B:` token ([token.md](token.md)) — 2 minutes, no
-login flow, but re-paste on every rotation.
+Alternative: paste a manual `B:` token ([token.md](token.md)) — 2 minutes, no login flow, but
+re-paste on every rotation.
 
 ## 2. Stores
 
@@ -57,11 +54,10 @@ stores = sp.stores.list_stores()
 # -> [{"id": "7", "name": "My Shop", "status": 1}, ...]
 ```
 
-`list_stores()` walks the `lastStoreId` cursor until the batch runs short (or
-`storeCount` is reached). When the `[1, 10]` service filter yields zero
-stores, it retries once with the filter omitted entirely — stores without a
-service still show up. Keep the numeric `id`: the feed and the watcher are
-store-scoped.
+`list_stores()` walks the `lastStoreId` cursor until the batch runs short (or `storeCount` is
+reached). When the `[1, 10]` service filter yields zero stores, it retries once with the filter
+omitted entirely — stores without a service still show up. Keep the numeric `id`: the feed and the
+watcher are store-scoped.
 
 ## 3. Transactions
 
@@ -89,19 +85,18 @@ Each transaction is normalized:
 }
 ```
 
-Three things that differ from GoPay: amounts are **whole rupiah** (the wire
-sends grouped strings — `"409.662"` = Rp409.662 — parsed with
-`shopee.money.parse_id_amount()`, never minor units); time filters are
-**epoch seconds**; the feed is **cursor-paged** (`next_position`, page cap 10).
+Three things that differ from GoPay: amounts are **whole rupiah** (the wire sends grouped strings —
+`"409.662"` = Rp409.662 — parsed with `shopee.money.parse_id_amount()`, never minor units); time
+filters are **epoch seconds**; the feed is **cursor-paged** (`next_position`, page cap 10).
 
-Scope & safety: rows from other stores are dropped (`merchant_id=` adds a
-second check), `transactionId` dedupes across pages, malformed rows are
-skipped (never guessed), and a non-advancing cursor raises instead of looping.
+Scope & safety: rows from other stores are dropped (`merchant_id=` adds a second check),
+`transactionId` dedupes across pages, malformed rows are skipped (never guessed), and a
+non-advancing cursor raises instead of looping.
 
 ## 4. Payment watcher
 
-Same seed → poll → match-nominal shape as GoPay, but amounts are whole rupiah
-and only `completed` transactions match:
+Same seed → poll → match-nominal shape as GoPay, but amounts are whole rupiah and only `completed`
+transactions match:
 
 ```python
 watcher = sp.watch(7)   # store_id; poll_interval=10.0 like the reference gateway
@@ -115,16 +110,15 @@ paid = watcher.wait_for_payment(409662, timeout=300, tolerance=100)
 
 Gateway recipe:
 
-1. `qris.inject_amount(static_qris, bill)` (+ unique code Rp1–99) → show QR.
-   (Reuse `qrismerchantid.gopay.qris` — EMVCo injection is provider-agnostic.)
+1. `qris.inject_amount(static_qris, bill)` (+ unique code Rp1–99) → show QR. (Reuse
+   `qrismerchantid.gopay.qris` — EMVCo injection is provider-agnostic.)
 2. `watcher.seed()` when the checkout opens.
-3. `wait_for_payment(bill_idr, timeout=300)` → on success, record the `id` /
-   `order_id` in YOUR database and reject replays; on `TimeoutError`, expire
-   the invoice.
+3. `wait_for_payment(bill_idr, timeout=300)` → on success, record the `id` / `order_id` in YOUR
+   database and reject replays; on `TimeoutError`, expire the invoice.
 
-Etiquette: poll only while a checkout is active (~10s cadence) — the reference
-gateway scales requests with active buyers and sends zero when the shop is
-quiet. Hammering the feed is how tokens get rate-limited.
+Etiquette: poll only while a checkout is active (~10s cadence) — the reference gateway scales
+requests with active buyers and sends zero when the shop is quiet. Hammering the feed is how tokens
+get rate-limited.
 
 ## 5. Configuration
 
@@ -152,8 +146,7 @@ sp = ShopeePayPartner(token="B:...", transport=transport)
 
 ## Merchant flow
 
-How money moves through ShopeePay, end to end. (GitHub renders this as a
-diagram automatically.)
+How money moves through ShopeePay, end to end. (GitHub renders this as a diagram automatically.)
 
 ```mermaid
 sequenceDiagram

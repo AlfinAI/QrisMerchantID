@@ -19,13 +19,12 @@ version: "1.0"
 
 Sumber: S1 (GoPay Merchant 2.3.0), S2 (GoFood Merchant 5.49.0), S3 (endpoints GoFood).
 
-- Kurasi awal: `hosts.csv` (35 host), `endpoints.csv` (6 path IDENTIK +
-  ~160 GoPay-only + ~80 GoFood-only), `credentials.md` (masking penuh),
-  `deeplinks.md`, `sdk_bersama.md`, `temuan_keamanan.csv` (16 baris),
-  `KONFLIK.md` (TODO-KB-1 s.d. -3).
+- Kurasi awal: `hosts.csv` (35 host), `endpoints.csv` (6 path IDENTIK + ~160 GoPay-only + ~80
+  GoFood-only), `credentials.md` (masking penuh), `deeplinks.md`, `sdk_bersama.md`,
+  `temuan_keamanan.csv` (16 baris), `KONFLIK.md` (TODO-KB-1 s.d. -3).
 - Naratif: `docs/KB_QRIS_MERCHANT_INDEX.md` + `docs/KB_QRIS_MERCHANT_AGENT_GUIDE.md`.
 - Index: `research/README.md`, `docs/README.md`.
 
-Ringkasan: dua APK GoTo terkonfirmasi sister apps (sertifikat + 6 endpoint PIN
-identik + SDK bersama), gateway terpisah (midtrans/raccoon vs gobiz BFF).
-Runtime 100% BELUM TERVERIFIKASI — integrasi menunggu capture (TODO-NET-1).
+Ringkasan: dua APK GoTo terkonfirmasi sister apps (sertifikat + 6 endpoint PIN identik + SDK
+bersama), gateway terpisah (midtrans/raccoon vs gobiz BFF). Runtime 100% BELUM TERVERIFIKASI —
+integrasi menunggu capture (TODO-NET-1).

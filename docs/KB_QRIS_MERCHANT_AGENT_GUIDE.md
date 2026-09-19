@@ -20,25 +20,24 @@ version: "1.0"
 
 ## 2. Cara baca `reference/`
 
-- `*.csv`: baris pertama `# sources:` adalah komentar (bukan header);
-  header sebenarnya di baris kedua; delimiter koma standar.
-- `endpoints.csv`: `apk_sumber` ∈ {keduanya, GoPay-only, GoFood-only};
-  `terverifikasi` = "ya (string statis)" artinya string ada di APK, BUKAN
-  endpoint aktif; `dipakai_runtime` selalu BELUM TERVERIFIKASI.
+- `*.csv`: baris pertama `# sources:` adalah komentar (bukan header); header sebenarnya di baris
+  kedua; delimiter koma standar.
+- `endpoints.csv`: `apk_sumber` ∈ {keduanya, GoPay-only, GoFood-only}; `terverifikasi` = "ya (string
+  statis)" artinya string ada di APK, BUKAN endpoint aktif; `dipakai_runtime` selalu BELUM
+  TERVERIFIKASI.
 - `hosts.csv`: kolom `catatan` menandai staging (M3) vs produksi.
-- Kode TODO memakai alias KB (`GOPAY-*`/`GOFOOD-*`/tanpa prefix) —
-  lihat `reference/KONFLIK.md` TODO-KB-1 untuk pemetaan ke kode laporan asal.
+- Kode TODO memakai alias KB (`GOPAY-*`/`GOFOOD-*`/tanpa prefix) — lihat `reference/KONFLIK.md`
+  TODO-KB-1 untuk pemetaan ke kode laporan asal.
 
 ## 3. Cara jawab pertanyaan umum
 
-- "Endpoint apa untuk X?" → grep `endpoints.csv` kolom `grup`
-  (auth-pin, histori, keuangan, transaksi-qris, edc-kartu, settlement, …).
-- "Apakah Y aman?" → cek `temuan_keamanan.csv` (kolom `status`:
-  indikasi-statis ≠ kerentanan) + TODO terkait.
-- "Bagaimana integrasi Z?" → `deeplinks.md` + `endpoints.csv` grup relevan +
-  §4 KB index (prioritas); selalu sertakan TODO-NET-1 sebagai syarat runtime.
-- "Apakah data ini benar?" → lacak `apk_sumber` → laporan S1/S2 §tercantum →
-  `MANIFEST.md` (hash).
+- "Endpoint apa untuk X?" → grep `endpoints.csv` kolom `grup` (auth-pin, histori, keuangan,
+  transaksi-qris, edc-kartu, settlement, …).
+- "Apakah Y aman?" → cek `temuan_keamanan.csv` (kolom `status`: indikasi-statis ≠ kerentanan) + TODO
+  terkait.
+- "Bagaimana integrasi Z?" → `deeplinks.md` + `endpoints.csv` grup relevan + §4 KB index
+  (prioritas); selalu sertakan TODO-NET-1 sebagai syarat runtime.
+- "Apakah data ini benar?" → lacak `apk_sumber` → laporan S1/S2 §tercantum → `MANIFEST.md` (hash).
 
 ## 4. Anti-pattern (dilarang)
 
@@ -50,28 +49,24 @@ version: "1.0"
 
 ## 5. Contoh Q&A terverifikasi
 
-**Q1: Endpoint apa untuk riwayat transaksi GoPay Merchant?**
-A: `/api/v1/unified-histories` + `/filter`, `/api/v2/histories`
-(`reference/endpoints.csv`, grup `histori`, apk_sumber GoPay-only).
+**Q1: Endpoint apa untuk riwayat transaksi GoPay Merchant?** A: `/api/v1/unified-histories` +
+`/filter`, `/api/v2/histories` (`reference/endpoints.csv`, grup `histori`, apk_sumber GoPay-only).
 Keyakinan: SEDANG (string statis, runtime BELUM TERVERIFIKASI, TODO-NET-1).
 
-**Q2: Apakah kedua APK memakai auth PIN yang sama?**
-A: Ya, 6 path PIN IDENTIK persis (`reference/endpoints.csv` grup `auth-pin`,
-`sdk_bersama.md`). Keyakinan: TINGGI (2 sumber: S1 §5.2 + S2 §5.2/S3).
+**Q2: Apakah kedua APK memakai auth PIN yang sama?** A: Ya, 6 path PIN IDENTIK persis
+(`reference/endpoints.csv` grup `auth-pin`, `sdk_bersama.md`). Keyakinan: TINGGI (2 sumber: S1 §5.2
 
-**Q3: Apakah API key GoFood bocor dan berbahaya?**
-A: Key `AIza…E0ROM (len=39)` terverifikasi ada di manifest
-(`reference/credentials.md`), TETAPI dampaknya BELUM TERVERIFIKASI
-(GOFOOD-TODO-ST-3) — bergantung restriksi konsol Google. Status: indikasi,
-bukan kerentanan terkonfirmasi.
++ S2 §5.2/S3).
 
-**Q4: Bagaimana cara realtime-notifikasi di GoFood Merchant?**
-A: BELUM TERVERIFIKASI. Tidak ada string `wss://` (S2 §5.3); kandidat: FCM
-(`/v1/devices/push_token`). TODO: GOFOOD-TODO-NET-3.
+**Q3: Apakah API key GoFood bocor dan berbahaya?** A: Key `AIza…E0ROM (len=39)` terverifikasi ada di
+manifest (`reference/credentials.md`), TETAPI dampaknya BELUM TERVERIFIKASI (GOFOOD-TODO-ST-3) —
+bergantung restriksi konsol Google. Status: indikasi, bukan kerentanan terkonfirmasi.
 
-**Q5: Bisakah token GoPay Merchant dipakai di GoFood?**
-A: BELUM TERVERIFIKASI — pertanyaan riset terbuka #2
-(`KB_QRIS_MERCHANT_INDEX.md` §6). Jangan interpolasi.
+**Q4: Bagaimana cara realtime-notifikasi di GoFood Merchant?** A: BELUM TERVERIFIKASI. Tidak ada
+string `wss://` (S2 §5.3); kandidat: FCM (`/v1/devices/push_token`). TODO: GOFOOD-TODO-NET-3.
+
+**Q5: Bisakah token GoPay Merchant dipakai di GoFood?** A: BELUM TERVERIFIKASI — pertanyaan riset
+terbuka #2 (`KB_QRIS_MERCHANT_INDEX.md` §6). Jangan interpolasi.
 
 Kembali ke: [KB index](KB_QRIS_MERCHANT_INDEX.md) · [MANIFEST](../reference/MANIFEST.md)
 

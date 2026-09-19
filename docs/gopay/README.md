@@ -16,9 +16,8 @@ gopay.payouts       # payout history + payable balance
 gopay.watch(...)    # payment watcher factory
 ```
 
-Service pages: [auth](auth.md) · [merchants](merchants.md) ·
-[transactions](transactions.md) · [payouts](payouts.md) · [qris](qris.md) ·
-[watcher](watcher.md)
+Service pages: [auth](auth.md) · [merchants](merchants.md) · [transactions](transactions.md) ·
+[payouts](payouts.md) · [qris](qris.md) · [watcher](watcher.md)
 
 ## 1. Login — OTP & password
 
@@ -30,7 +29,7 @@ otp = gopay.auth.request_otp("0812xxxxxxx")  # SMS, 4 digits, ~12 min window
 # otp -> {"otp_token", "otp_expires_in", "otp_length", "next_state"}
 session = gopay.auth.login_with_otp(input("OTP: "), otp["otp_token"])
 
-# --- Password (verified against reference code; live re-check is TODO-R1) ---
+# --- Password (verified live §9.5; needs email+password set in portal) ---
 session = gopay.auth.login_with_password("you@shop.id", "secret")
 
 session  # -> {"access_token", "refresh_token", ...} — also set on the client
@@ -38,12 +37,12 @@ session  # -> {"access_token", "refresh_token", ...} — also set on the client
 
 Notes (all verified against a live portal capture, research §9):
 
-- `request_otp()` sends **no `login_type` field** — the portal doesn't either.
-  (Some reference repos send one; the server ignores it.)
-- Phone numbers may carry spaces/dashes (`"0812 345-678"` is normalized);
-  `country_code` defaults to `"62"`.
-- Keep `otp_token` server-side between the two calls (or
-  `token_cache.save_pending_otp()`); it expires with the code.
+- `request_otp()` sends **no `login_type` field** — the portal doesn't either. (Some reference repos
+  send one; the server ignores it.)
+- Phone numbers are normalized to bare national format (`"0812…"`, `"+62812…"`, `"62812…"` →
+  `"812…"`); garbage raises `ValueError`. `country_code` defaults to `"62"`.
+- Keep `otp_token` server-side between the two calls (or `token_cache.save_pending_otp()`); it
+  expires with the code.
 
 ## 2. Session cache
 
@@ -58,9 +57,8 @@ session = token_cache.load(".gopay-session.json")  # None if missing/invalid
 gopay = GoPayMerchant(access_token=session["access_token"]) if session else GoPayMerchant()
 ```
 
-Recommended loop for long-running gateways: load cache → cheap
-`merchants.search()` probe → on 401, login again and re-save. See
-[examples/01_login_otp.py](../../examples/01_login_otp.py) and
+Recommended loop for long-running gateways: load cache → cheap `merchants.search()` probe → on 401,
+login again and re-save. See [examples/01_login_otp.py](../../examples/01_login_otp.py) and
 [examples/02_merchants.py](../../examples/02_merchants.py).
 
 ## 3. Users & merchants
@@ -92,12 +90,11 @@ txns = gopay.transactions.analytics(["G111", "G222"], days=1, size=50)  # multi-
 # -> {"from", "size", "total", "transactions": [...]}
 ```
 
-Each transaction carries 23 keys, including `order_id` (`QRIS-…`),
-`transaction_status` (`SETTLEMENT`/`CAPTURE`/`REFUND`/`PARTIAL_REFUND`),
-`payment_type`, `channel_type` (`STATIC_QR`), `transaction_source`
-(`GOPAY_INSTORE`), `qris_provider_aspi_issuer`/`…_acquirer`, `shares`,
-`promo_details`. Defaults mirror the portal exactly
-(`statuses=SETTLEMENT,…`, `payment_types=QRIS,GOPAY,…`) and are overridable.
+Each transaction carries 23 keys, including `order_id` (`QRIS-…`), `transaction_status`
+(`SETTLEMENT`/`CAPTURE`/`REFUND`/`PARTIAL_REFUND`), `payment_type`, `channel_type` (`STATIC_QR`),
+`transaction_source` (`GOPAY_INSTORE`), `qris_provider_aspi_issuer`/`…_acquirer`, `shares`,
+`promo_details`. Defaults mirror the portal exactly (`statuses=SETTLEMENT,…`,
+`payment_types=QRIS,GOPAY,…`) and are overridable.
 
 Two more reads on `/journals/search` (special journal headers handled for you):
 
@@ -125,8 +122,8 @@ Amounts here are **decimal strings in minor units** — `to_rupiah("11610000.0")
 
 ## 6. QRIS dynamic
 
-Pure offline helpers (`qrismerchantid.gopay.qris`): parse a static QRIS as EMVCo
-TLV, set tag `54` to the bill, recompute **CRC16-CCITT**, done:
+Pure offline helpers (`qrismerchantid.gopay.qris`): parse a static QRIS as EMVCo TLV, set tag `54`
+to the bill, recompute **CRC16-CCITT**, done:
 
 ```python
 from qrismerchantid.gopay import qris
@@ -136,10 +133,10 @@ dynamic = qris.inject_amount(static_qris, 50000)  # Rp50.000, CRC valid
 qris.get_tag(dynamic, "54")              # "50000"
 ```
 
-Render `dynamic` with any QR library (`qrcode`, `segno`) and display it at
-checkout. **Anti double-claim** (when two buyers pay the same nominal at once):
-add a unique code (Rp1–99) to the bill and dedupe by the watcher's
-`transaction_id`/`order_id` on your side — the same recipe every gateway uses.
+Render `dynamic` with any QR library (`qrcode`, `segno`) and display it at checkout. **Anti
+double-claim** (when two buyers pay the same nominal at once): add a unique code (Rp1–99) to the
+bill and dedupe by the watcher's `transaction_id`/`order_id` on your side — the same recipe every
+gateway uses.
 
 ## 7. Payment watcher
 
@@ -154,9 +151,9 @@ paid = watcher.wait_for_payment(5_000_000, timeout=300, tolerance=100)
 # -> raw transaction dict; raises TimeoutError when the invoice lapses
 ```
 
-Lower-level: `watcher.poll_once()` returns only never-seen transactions (seen
-cache capped at 500). Polling etiquette: keep the 6s interval, poll only while
-a checkout is active — aggressive polling is how accounts get rate-limited.
+Lower-level: `watcher.poll_once()` returns only never-seen transactions (seen cache capped at 500).
+Polling etiquette: keep the 6s interval, poll only while a checkout is active — aggressive polling
+is how accounts get rate-limited.
 
 ## 8. Configuration
 
@@ -166,7 +163,7 @@ gopay = GoPayMerchant(
     timeout=30.0,       # seconds
     max_retries=2,      # transport errors only — never HTTP errors
     backoff_base=0.5,   # exponential: 0.5s, 1s, 2s, ...
-    app_version="platform-v3.119.0-eab7f749",  # default follows the analyzed portal
+    app_version="platform-v3.122.0-72edb090",  # default follows the analyzed portal
     user_agent="...",
 )
 ```
@@ -183,8 +180,7 @@ gopay = GoPayMerchant(transport=transport)
 
 ## Merchant flows
 
-How money moves through GoPay, end to end. (GitHub renders these as diagrams
-automatically.)
+How money moves through GoPay, end to end. (GitHub renders these as diagrams automatically.)
 
 ### GoPay login — OTP
 

@@ -1,8 +1,7 @@
 # Payment watcher — seed, poll, wait for nominal
 
-Ports the `GoPayWatcher` pattern from `gobiz.js`: poll `analytics()`, remember
-what was seen, surface only new transactions, block until the expected nominal
-(minor units!) arrives.
+Ports the `GoPayWatcher` pattern from `gobiz.js`: poll `analytics()`, remember what was seen,
+surface only new transactions, block until the expected nominal (minor units!) arrives.
 
 ## API
 
@@ -22,13 +21,11 @@ Dedup keys: `transaction_id` → `id` → `order_id` → `time_gross` fallback.
 
 1. `inject_amount(static_qris, bill)` (+ unique code Rp1–99) → show QR.
 2. `watcher.seed()` when the checkout opens.
-3. `wait_for_payment(bill_minor, timeout=300)` → on success, record the
-   `transaction_id`/`order_id` in YOUR database and reject replays; on
-   `TimeoutError`, expire the invoice.
+3. `wait_for_payment(bill_minor, timeout=300)` → on success, record the `transaction_id`/`order_id`
+   in YOUR database and reject replays; on `TimeoutError`, expire the invoice.
 
 ## Etiquette
 
-Poll only while a checkout is active and keep ~6s intervals — hammering the
-feed is how accounts get rate-limited. The stateless alternative (client-polled
-checks, like the ShopeePay reference gateway) applies here too: no buyers, no
-requests.
+Poll only while a checkout is active and keep ~6s intervals — hammering the feed is how accounts get
+rate-limited. The stateless alternative (client-polled checks, like the ShopeePay reference gateway)
+applies here too: no buyers, no requests.

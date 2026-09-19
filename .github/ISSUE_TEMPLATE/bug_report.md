@@ -27,7 +27,9 @@ labels: bug
 ## Response details (sanitized)
 
 <!-- e.http_status, e.code, and the redacted e.payload if relevant.
-For ShopeePay auth: which step failed (request_otp / verify_otp / complete_login / refresh_session)? -->
+
+For ShopeePay auth: which step failed (request_otp / verify_otp / complete_login / refresh_session)?
+-->
 
 ## Checklist
 

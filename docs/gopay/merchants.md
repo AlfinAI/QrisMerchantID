@@ -12,8 +12,8 @@ me["user"]  # {id, email, full_name, phone, language, merchant_id,
 
 ## `merchants.search()` — `POST /v1/merchants/search`
 
-Body shape `{from, size}` exactly as the portal sends (NOT `{from, to, _source}`
-as older reference code does — both work, we mirror the browser):
+Body shape `{from, size}` exactly as the portal sends (NOT `{from, to, _source}` as older reference
+code does — both work, we mirror the browser):
 
 ```python
 found = gopay.merchants.search()              # from_=0, size=20
@@ -21,8 +21,8 @@ found = gopay.merchants.search(from_=40, size=5)
 found  # {"total", "success", "hits": [{"id": "G…", "merchant_name", ...}]}
 ```
 
-Doubles as the **token-validity probe**: the cheapest authenticated call, used by
-every reference gateway to detect 401s.
+Doubles as the **token-validity probe**: the cheapest authenticated call, used by every reference
+gateway to detect 401s.
 
 ## `merchants.detail()` — `GET /v1/merchants/{id}`
 
@@ -32,5 +32,5 @@ detail = gopay.merchants.detail("G8277…")
 # payment_settings (VA/retail per provider), settlement/cutoff config…
 ```
 
-Merchant IDs look like `G` + 9 digits. The object is large — read the keys you
-need; nothing is dropped or renamed by the SDK.
+Merchant IDs look like `G` + 9 digits. The object is large — read the keys you need; nothing is
+dropped or renamed by the SDK.

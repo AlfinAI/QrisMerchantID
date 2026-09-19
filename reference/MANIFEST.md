@@ -13,11 +13,11 @@ version: "1.0"
 
 Semua path relatif ke root repo `QrisMerchantID/`.
 
-| # | Artefak | SHA256 (tercatat saat kurasi) | Tanggal | Scope |
-|---|---|---|---|---|
-| S1 | `research/APK_GOPAY_MERCHANT_2.3.0_ANALYSIS.md` | `83aa39b0…2574d04f` | 2026-09-11 | Analisis statis GoPay Merchant (laporan) |
-| S2 | `research/APK_GOFOOD_MERCHANT_5.49.0_ANALYSIS.md` | `0c7000ee…4a71` | 2026-09-11 | Analisis statis GoFood Merchant (laporan) |
-| S3 | `research/APK_GOFOOD_MERCHANT_5.49.0_ENDPOINTS.txt` | `3f03dcd7…c0a5908` | 2026-09-11 | Daftar endpoint mesin-terbaca (GoFood) |
+| #   | Artefak                                             | SHA256 (tercatat saat kurasi) | Tanggal    | Scope                                     |
+| --- | --------------------------------------------------- | ----------------------------- | ---------- | ----------------------------------------- |
+| S1  | `research/APK_GOPAY_MERCHANT_2.3.0_ANALYSIS.md`     | `83aa39b0…2574d04f`           | 2026-09-11 | Analisis statis GoPay Merchant (laporan)  |
+| S2  | `research/APK_GOFOOD_MERCHANT_5.49.0_ANALYSIS.md`   | `0c7000ee…4a71`               | 2026-09-11 | Analisis statis GoFood Merchant (laporan) |
+| S3  | `research/APK_GOFOOD_MERCHANT_5.49.0_ENDPOINTS.txt` | `3f03dcd7…c0a5908`            | 2026-09-11 | Daftar endpoint mesin-terbaca (GoFood)    |
 
 SHA256 penuh (verifikasi: `sha256sum research/APK_*`):
 
@@ -27,22 +27,20 @@ SHA256 penuh (verifikasi: `sha256sum research/APK_*`):
 
 ## File APK asal (sudah dihapus pasca-analisis)
 
-| APK | SHA256 container (dari §12 laporan) | Status file |
-|---|---|---|
-| GoPay Merchant APKM 51,7 MB (APKMirror id 15692643) | `3d83cb9e…fcafba` | DIHAPUS — unduh ulang + cocokkan hash |
-| GoFood Merchant XAPK 82,2 MB (APKPure) | `0f25c79c…a9942` | DIHAPUS — unduh ulang + cocokkan hash |
+| APK                                                 | SHA256 container (dari §12 laporan) | Status file                           |
+| --------------------------------------------------- | ----------------------------------- | ------------------------------------- |
+| GoPay Merchant APKM 51,7 MB (APKMirror id 15692643) | `3d83cb9e…fcafba`                   | DIHAPUS — unduh ulang + cocokkan hash |
+| GoFood Merchant XAPK 82,2 MB (APKPure)              | `0f25c79c…a9942`                    | DIHAPUS — unduh ulang + cocokkan hash |
 
-> Catatan verifikasi jujur: hash §12 adalah hash **file APK**, bukan hash laporan.
-> APK sudah dihapus sehingga kecocokan ulang APK↔hash **BELUM TERVERIFIKASI**
-> sampai unduh ulang dilakukan. Yang terverifikasi di sini: ketiga artefak S1–S3
-> ada, terbaca, dan hash-nya tercatat di atas.
+> Catatan verifikasi jujur: hash §12 adalah hash **file APK**, bukan hash laporan. APK sudah dihapus
+> sehingga kecocokan ulang APK↔hash **BELUM TERVERIFIKASI** sampai unduh ulang dilakukan. Yang
+> terverifikasi di sini: ketiga artefak S1–S3 ada, terbaca, dan hash-nya tercatat di atas.
 
 ## Link tambahan
 
-Tidak ada link referensi eksternal terverifikasi dalam scope kurasi ini
-(laporan sumber hanya merujuk URL unduhan APK di atas). Direktori
-`reference/links/` sengaja tidak dibuat — TODO-KB-3 jika referensi docs GoBiz /
-developer portal dikumpulkan kemudian.
+Tidak ada link referensi eksternal terverifikasi dalam scope kurasi ini (laporan sumber hanya
+merujuk URL unduhan APK di atas). Direktori `reference/links/` sengaja tidak dibuat — TODO-KB-3 jika
+referensi docs GoBiz / developer portal dikumpulkan kemudian.
 
 ## TODO aktif
 

@@ -10,10 +10,10 @@ version: "1.0"
 
 # Panduan Reproduksi Riset APK Merchant
 
-Dokumen ini menjelaskan **persis bagaimana** riset APK di repo ini dilakukan,
-sehingga kamu bisa: (a) memverifikasi ulang temuan kami, (b) menganalisis versi
-APK yang lebih baru, (c) mem-port pengetahuan ini ke bahasa/SDK lain.
-Semua klaim di sini merujuk pada laporan sumber — tidak ada langkah rahasia.
+Dokumen ini menjelaskan **persis bagaimana** riset APK di repo ini dilakukan, sehingga kamu bisa:
+(a) memverifikasi ulang temuan kami, (b) menganalisis versi APK yang lebih baru, (c) mem-port
+pengetahuan ini ke bahasa/SDK lain. Semua klaim di sini merujuk pada laporan sumber — tidak ada
+langkah rahasia.
 
 Contoh hasil yang bisa kamu pelajari strukturnya:
 
@@ -23,12 +23,12 @@ Contoh hasil yang bisa kamu pelajari strukturnya:
 
 ## 1. Prasyarat jujur
 
-| Kebutuhan | Minimum | Catatan |
-|---|---|---|
-| OS | Linux x86_64 (kami: Debian) | Perintah memakai `apt`, `curl`, `unzip` |
-| RAM | 4 GB (2 GB **tidak cukup** untuk jadx — terbukti OOM, lihat §7) | apktool + androguard jalan di 2 GB |
-| Disk sementara | ±1 GB di `/tmp` | Decode GoFood = 730 MB; **jangan** decode di folder repo |
-| Jaringan | Akses APKMirror/APKPure/GitHub | URL unduhan bisa kedaluwarsa → cari versi terbaru |
+| Kebutuhan      | Minimum                                                         | Catatan                                                  |
+| -------------- | --------------------------------------------------------------- | -------------------------------------------------------- |
+| OS             | Linux x86_64 (kami: Debian)                                     | Perintah memakai `apt`, `curl`, `unzip`                  |
+| RAM            | 4 GB (2 GB **tidak cukup** untuk jadx — terbukti OOM, lihat §7) | apktool + androguard jalan di 2 GB                       |
+| Disk sementara | ±1 GB di `/tmp`                                                 | Decode GoFood = 730 MB; **jangan** decode di folder repo |
+| Jaringan       | Akses APKMirror/APKPure/GitHub                                  | URL unduhan bisa kedaluwarsa → cari versi terbaru        |
 
 ## 2. Instalasi tool
 
@@ -39,8 +39,8 @@ pip install androguard
 # (jadx 1.5.6: https://github.com/skylot/jadx/releases — aset bernama jadx-1.5.6.zip TANPA huruf v)
 ```
 
-Verifikasi versi dan **catat di laporanmu** (contoh kami: apktool 2.7.0-dirty,
-androguard 4.1.4, OpenJDK 11, Python 3.13).
+Verifikasi versi dan **catat di laporanmu** (contoh kami: apktool 2.7.0-dirty, androguard 4.1.4,
+OpenJDK 11, Python 3.13).
 
 ## 3. Langkah reproduksi (urutan wajib)
 
@@ -149,10 +149,9 @@ done
 
 ### 3.11 Tulis laporan
 
-Ikuti struktur `research/APK_*_ANALYSIS.md` (§0–§12): ringkasan → metadata →
-permission → komponen → statis → jaringan → native → dinamis (jujur jika tidak
-dilakukan) → verdict → rekomendasi → relevansi → log reproduksibilitas.
-Setiap angka harus bisa dilacak ke perintah di §12.
+Ikuti struktur `research/APK_*_ANALYSIS.md` (§0–§12): ringkasan → metadata → permission → komponen →
+statis → jaringan → native → dinamis (jujur jika tidak dilakukan) → verdict → rekomendasi →
+relevansi → log reproduksibilitas. Setiap angka harus bisa dilacak ke perintah di §12.
 
 ### 3.12 Bersih-bersih
 
@@ -164,21 +163,20 @@ Simpan di repo: laporan + hash + (opsional) daftar endpoint terfilter.
 
 ## 4. Checklist porter (bahasa/SDK lain)
 
-1. Ambil `reference/endpoints.csv` + `hosts.csv` sebagai titik awal — JANGAN
-   klaim endpoint "aktif" (semuanya TODO-NET-1).
-2. Petakan grup `auth-pin` dulu (satu-satunya yang identik lintas-APK = pola
-   paling stabil).
-3. Untuk setiap endpoint yang kamu implementasi: butuh capture traffic sendiri
-   (host, method, header, auth, signing) — string statis tidak cukup.
-4. Tiru aturan kami: full docstring/type-hint/test offline, atribusi sumber,
-   tanpa kredensial hardcoded.
+1. Ambil `reference/endpoints.csv` + `hosts.csv` sebagai titik awal — JANGAN klaim endpoint "aktif"
+   (semuanya TODO-NET-1).
+2. Petakan grup `auth-pin` dulu (satu-satunya yang identik lintas-APK = pola paling stabil).
+3. Untuk setiap endpoint yang kamu implementasi: butuh capture traffic sendiri (host, method,
+   header, auth, signing) — string statis tidak cukup.
+4. Tiru aturan kami: full docstring/type-hint/test offline, atribusi sumber, tanpa kredensial
+   hardcoded.
 5. Kirim kembali temuanmu (issue/PR) — KB ini hidup dari kontribusi.
 
 ## 5. Etika & batasan (dibaca sebelum mulai)
 
 - Riset ini **statis + edukasional** atas APK yang didistribusikan publik.
-- Dilarang: probing backend orang lain, mengekstrak data pengguna, mempublikasikan
-  secret mentah, mengklaim kerentanan dari indikator statis saja.
+- Dilarang: probing backend orang lain, mengekstrak data pengguna, mempublikasikan secret mentah,
+  mengklaim kerentanan dari indikator statis saja.
 - Bukan afiliasi GoTo/GoPay/GoFood/Shopee. Baca `SECURITY_DISCLOSURE.md`.
 
 Kembali ke: [KB index](KB_QRIS_MERCHANT_INDEX.md)

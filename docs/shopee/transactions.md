@@ -32,18 +32,18 @@ detail = sp.transactions.transaction_detail("DSP-1")  # displayTransactionId, or
 # -> {"order_sn": "DSP-1", "issuer": "SeaBank", "raw": {...}}
 ```
 
-Resolves the paying channel via `get-transaction-detail` (`issuer` is `None`
-when the wire omits it). Enriches a feed row after a watcher match.
+Resolves the paying channel via `get-transaction-detail` (`issuer` is `None` when the wire omits
+it). Enriches a feed row after a watcher match.
 
 ## Money: whole rupiah, Indonesian grouping
 
-The wire sends amounts as grouped strings — `"409.662"` means Rp409.662 (dots
-are thousand separators). `parse_id_amount()` converts them; malformed values
-yield `None` and the row is skipped. **Never mix with GoPay's minor units.**
+The wire sends amounts as grouped strings — `"409.662"` means Rp409.662 (dots are thousand
+separators). `parse_id_amount()` converts them; malformed values yield `None` and the row is
+skipped. **Never mix with GoPay's minor units.**
 
 ## Scope, dedup, cursors
 
 - Rows from other stores are dropped (`merchant_id=` adds a second scope check).
 - `transactionId` dedupes across pages; malformed rows are skipped, never guessed.
-- `page_size` clamps to the verified 1–10 cap; a non-advancing `next_position`
-  raises `QmidException`; `truncated=True` means `max_pages` ran out mid-feed.
+- `page_size` clamps to the verified 1–10 cap; a non-advancing `next_position` raises
+  `QmidException`; `truncated=True` means `max_pages` ran out mid-feed.
