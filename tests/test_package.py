@@ -5,7 +5,7 @@ from qrismerchantid import GoPayMerchant, ShopeePayPartner
 
 
 def test_version_and_exports():
-    assert qrismerchantid.__version__ == "0.2.0"
+    assert qrismerchantid.__version__ == "0.3.0"
     assert qrismerchantid.GoPayMerchant is GoPayMerchant
     assert qrismerchantid.ShopeePayPartner is ShopeePayPartner
     assert set(qrismerchantid.__all__) == {

@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-09-19
+
 ### Fixed
 
 - GoPay: OTP `request_otp()` follows the live portal again (2026-09-19 capture): `X-AppVersion`

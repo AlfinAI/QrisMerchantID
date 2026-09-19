@@ -34,7 +34,7 @@ Each merchant has its own guide with the full tutorial and flow diagrams:
 | ShopeePay partner | [docs/shopee/](docs/shopee/) | ✅ OTP login, stores, transactions + issuer, watcher (`B:` or OTP) |
 
 > Research/educational use only. Not affiliated with GoTo/GoPay/GoBiz or Shopee/Sea Group. Read-only
-> by design in v0.2.0 — it only *reads* your own merchant data (login + history + payouts) and never
+> by design in v0.3.0 — it only *reads* your own merchant data (login + history + payouts) and never
 > moves money.
 
 ## ⚠️ Disclaimer — harap dibaca dulu
@@ -130,7 +130,8 @@ print("PAID:", paid["id"])
 - [x] ShopeePay provider — OTP login, stores, feed + issuer lookup, watcher.
 - [ ] Live verification against real partner accounts (TODO-S1, TODO-R3) — field reports welcome in
       [Discussions](https://github.com/AlfinAI/QrisMerchantID/discussions).
-- [ ] `v0.2.0` PyPI release.
+- [x] `v0.2.0` PyPI release.
+- [ ] `v0.3.0` PyPI release.
 - [ ] Your idea here — open a Discussion or a feature request.
 
 ## Development
