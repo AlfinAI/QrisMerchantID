@@ -28,6 +28,7 @@ API knowledge in this project was derived from observing public traffic and the
 following open-source references (all unofficial, research/educational use):
 
 - GoBiz/GoPay Merchant: kavionn/gobiz-payment (primary reference),
+- OVO/merchant API research: lintangtimur/ovoid (attribution/reference),
   warungerik/API-GOPAY-MERCHANT, alhifnywahid/merchantid,
   ahmadzakiyox/gopay-api-gateaway, namtxs/gopay-api (customer-side comparison).
 - ShopeePay Partner (roadmap): alhifnywahid/merchantid (primary reference),

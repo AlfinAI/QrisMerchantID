@@ -4,6 +4,11 @@
 
 ## [0.3.0] - 2026-09-19
 
+### Attribution
+
+- Maintainer/reference acknowledgement: [lintangtimur/ovoid](https://github.com/lintangtimur/ovoid).
+  This project is independent and is not affiliated with the upstream author.
+
 ### Fixed
 
 - GoPay: OTP `request_otp()` follows the live portal again (2026-09-19 capture): `X-AppVersion`

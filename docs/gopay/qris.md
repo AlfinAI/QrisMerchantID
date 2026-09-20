@@ -1,31 +1,65 @@
-# QRIS helpers — EMVCo parse, dynamic nominal, CRC16
+# QRIS helpers
 
-Pure offline functions in `qrismerchantid.gopay.qris` (no network, no creds).
+`qrismerchantid.gopay.qris` contains pure, offline EMVCo/QRIS helpers. It does
+not call a provider, register a merchant, or verify whether a bank will accept
+a modified payload.
 
-## Background
+## What the helper changes
 
-A QRIS string is EMVCo TLV: repeating `TAG(2) + LENGTH(2) + VALUE`. A *static* QRIS has no nominal
-(tag `54` absent); a *dynamic* one sets tag `54` to the bill and recomputes the trailing CRC (tag
-`63`, `CRC16-CCITT-FALSE`: poly `0x1021`, init `0xFFFF`). This is exactly what every reference
-gateway does.
+A QRIS payload is a sequence of TLV fields:
 
-## API
+```text
+TAG (2 characters) + LENGTH (2 digits) + VALUE
+```
+
+`inject_amount()` preserves the merchant account fields and merchant identity,
+adds or replaces tag `54`, removes the old tag `63`, and calculates a new
+CRC16-CCITT-FALSE checksum. It does **not** rewrite tag `59` or `60`, and it
+does not change tag `01` from static (`11`) to dynamic (`12`). Those provider
+rules must be handled by the payment/acquirer integration, not assumed from a
+locally valid CRC.
 
 ```python
 from qrismerchantid.gopay import qris
 
-qris.parse(static)            # [(tag, value), ...]; ValueError if malformed
-qris.get_tag(static, "59")    # merchant name, e.g. "NUXYS STORE"
-qris.crc16_ccitt("123456789") # "29B1" (canonical check vector)
-qris.inject_amount(static, 50000)  # dynamic QRIS, Tag 54 + valid CRC
+qris.parse(static)             # [(tag, value), ...]
+qris.get_tag(static, "59")     # merchant name
+qris.crc16_ccitt("123456789")  # "29B1"
+payload = qris.inject_amount(static, 50000)
+assert qris.get_tag(payload, "54") == "50000"
 ```
 
-`inject_amount` replaces tag `54` in place when present, else inserts it in tag order; it strips any
-existing tag `63` first. Amounts are positive-int rupiah (no decimals); anything else raises
-`ValueError`.
+`inject_amount()` accepts a positive integer rupiah amount. It raises
+`ValueError` for malformed TLV input or an invalid amount. The helper is useful
+for offline experiments and integrations that explicitly support this
+transformation; a valid checksum alone is not proof that every bank or wallet
+will accept the result.
 
-## Rendering & double-claims
+## Rendering
 
-Render the returned string with any QR library (`qrcode`, `segno`). When two buyers pay the same
-nominal simultaneously, prevent double-claims the standard way: add a unique code (Rp1–99) to the
-bill and dedupe by `transaction_id` / `order_id` from the watcher on your side.
+Render the returned payload with a QR library such as `qrcode` or `segno`:
+
+```python
+import qrcode
+
+image = qrcode.make(payload)
+image.save("payment-qr.png")
+```
+
+Always test with the actual payment channels used by your customers. If a
+provider returns a merchant-not-found error, restore the provider-issued
+merchant identity and use a provider-supported dynamic QR flow instead of
+repeatedly changing tags `59` and `60`.
+
+## Matching and double claims
+
+When two buyers can pay the same amount at the same time, add a unique amount
+or reference only when the provider supports it. On your side, deduplicate by
+the provider transaction ID or order ID and expire invoices explicitly.
+
+## Attribution
+
+The QRIS helper is part of the independent QrisMerchantID research project.
+Related open-source research references are listed in the repository README and
+`reference/MANIFEST.md`, including
+[`lintangtimur/ovoid`](https://github.com/lintangtimur/ovoid).

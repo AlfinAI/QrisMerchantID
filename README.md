@@ -33,9 +33,9 @@ Each merchant has its own guide with the full tutorial and flow diagrams:
 | GoPay / GoBiz     | [docs/gopay/](docs/gopay/)   | ✅ auth, users, merchants, transactions, payouts, QRIS, watcher    |
 | ShopeePay partner | [docs/shopee/](docs/shopee/) | ✅ OTP login, stores, transactions + issuer, watcher (`B:` or OTP) |
 
-> Research/educational use only. Not affiliated with GoTo/GoPay/GoBiz or Shopee/Sea Group. Read-only
-> by design in v0.3.0 — it only *reads* your own merchant data (login + history + payouts) and never
-> moves money.
+> Research and educational use only. This project is not affiliated with GoTo/GoPay/GoBiz or
+> Shopee/Sea Group. The SDK does not initiate, settle, or move money. Its QRIS helper only builds a
+> payload locally; the payment is still made through the provider's QRIS rail.
 
 ## ⚠️ Disclaimer — harap dibaca dulu
 
@@ -130,8 +130,8 @@ print("PAID:", paid["id"])
 - [x] ShopeePay provider — OTP login, stores, feed + issuer lookup, watcher.
 - [ ] Live verification against real partner accounts (TODO-S1, TODO-R3) — field reports welcome in
       [Discussions](https://github.com/AlfinAI/QrisMerchantID/discussions).
-- [x] `v0.2.0` PyPI release.
-- [ ] `v0.3.0` PyPI release.
+- [x] `v0.3.0` source release.
+- [ ] PyPI publication — prepare-only until a clean secret scan and release review are complete.
 - [ ] Your idea here — open a Discussion or a feature request.
 
 ## Development
@@ -171,6 +171,7 @@ hosts, deeplinks, masked security findings):
 API knowledge: [kavionn/gobiz-payment](https://github.com/kavionn/gobiz-payment),
 [warungerik/API-GOPAY-MERCHANT](https://github.com/warungerik/API-GOPAY-MERCHANT),
 [alhifnywahid/merchantid](https://github.com/alhifnywahid/merchantid),
+[lintangtimur/ovoid](https://github.com/lintangtimur/ovoid) (attribution/reference),
 [ahmadzakiyox/gopay-api-gateaway](https://github.com/ahmadzakiyox/gopay-api-gateaway),
 [ahmadzakiyox/shoppepay-api-gateway](https://github.com/ahmadzakiyox/shoppepay-api-gateway),
 [namtxs/gopay-api](https://github.com/namtxs/gopay-api). Python package maintained by AlfinAI.

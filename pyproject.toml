@@ -33,6 +33,7 @@ Issues = "https://github.com/AlfinAI/QrisMerchantID/issues"
 Changelog = "https://github.com/AlfinAI/QrisMerchantID/blob/main/CHANGELOG.md"
 Reference-GoBiz = "https://github.com/kavionn/gobiz-payment"
 Reference-ShopeePay = "https://github.com/alhifnywahid/merchantid"
+Reference-OVO = "https://github.com/lintangtimur/ovoid"
 
 [project.optional-dependencies]
 dev = [
