@@ -1,4 +1,3 @@
-# sources: ../research/APK_GOPAY_MERCHANT_2.3.0_ANALYSIS.md (§5.1), ../research/APK_GOFOOD_MERCHANT_5.49.0_ANALYSIS.md (§5.1)
 host,peran,apk_sumber,terverifikasi,catatan
 api.gojekapi.com,API Gojek umum,keduanya,ya (string statis),Help/zendesk merchant (GoPay)
 i.gojekapi.com,CDN darkroom,keduanya,ya (string statis),Cleartext diizinkan di GoFood (M2)

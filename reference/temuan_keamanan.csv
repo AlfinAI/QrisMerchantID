@@ -1,4 +1,3 @@
-# sources: ../research/APK_GOPAY_MERCHANT_2.3.0_ANALYSIS.md (§0), ../research/APK_GOFOOD_MERCHANT_5.49.0_ANALYSIS.md (§0)
 kode,apk,level,temuan,status,todo
 GOPAY-M1,GoPay,menengah,Google API key tertanam (1 string AIza; nilai tidak terekam),indikasi-statis,GOPAY-TODO-ST-3; TODO-KB-2
 GOPAY-M2,GoPay,menengah,allowBackup default true (atribut absen),indikasi-statis,TODO-DYN-1 (konfirmasi)

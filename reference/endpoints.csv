@@ -1,6 +1,3 @@
-# sources: ../research/APK_GOPAY_MERCHANT_2.3.0_ANALYSIS.md (§5.2), ../research/APK_GOFOOD_MERCHANT_5.49.0_ANALYSIS.md (§5.2), ../research/APK_GOFOOD_MERCHANT_5.49.0_ENDPOINTS.txt
-# Catatan: path literal GoPay di-expand dari notasi grup §5.2 memakai output strings-grep sesi analisis (terverifikasi sesi); path GoFood verbatim dari S3.
-# method_guess & host_terkait SELALU "BELUM TERVERIFIKASI" (statis saja, TODO-NET-1).
 path,method_guess,grup,host_terkait,apk_sumber,terverifikasi,dipakai_runtime,catatan
 /api/v1/users/pin/challenges,BELUM TERVERIFIKASI,auth-pin,BELUM TERVERIFIKASI,keduanya,ya (string statis),BELUM TERVERIFIKASI,IDENTIK di kedua APK (PIN SDK bersama)
 /api/v1/users/pin/tokens,BELUM TERVERIFIKASI,auth-pin,BELUM TERVERIFIKASI,keduanya,ya (string statis),BELUM TERVERIFIKASI,IDENTIK di kedua APK
