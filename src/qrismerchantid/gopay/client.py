@@ -138,19 +138,13 @@ class GoPayClient:
             try:
                 data = self._handle_response(status, text)
                 expired = (
-                    data.get("success") is False
-                    and "expired token" in str(data.get("error", "")).lower()
+                    data.get("success") is False and "expired token" in str(data.get("error", "")).lower()
                 )
                 if expired:
                     raise ApiException(str(data.get("error")), None, data, 401)
                 return data
             except ApiException as exc:
-                if (
-                    _auth_retry
-                    and not auth_call
-                    and exc.http_status in (401, 403)
-                    and self._refresh_token
-                ):
+                if _auth_retry and not auth_call and exc.http_status in (401, 403) and self._refresh_token:
                     self._refresh_access_token()
                     return self.request(
                         method,
