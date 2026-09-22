@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Q&A Discussions
+    url: https://github.com/AlfinAI/QrisMerchantID/discussions/new/choose
+    about: Questions, ideas, and show-and-tell — anything that is not a bug.
+  - name: Telegram
+    url: https://t.me/JoestarMojo
+    about: Direct chat with the maintainer.

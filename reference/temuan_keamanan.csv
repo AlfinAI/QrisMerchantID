@@ -1,0 +1,17 @@
+kode,apk,level,temuan,status,todo
+GOPAY-M1,GoPay,menengah,Google API key tertanam (1 string AIza; nilai tidak terekam),indikasi-statis,GOPAY-TODO-ST-3; TODO-KB-2
+GOPAY-M2,GoPay,menengah,allowBackup default true (atribut absen),indikasi-statis,TODO-DYN-1 (konfirmasi)
+GOPAY-M3,GoPay,menengah,URL staging/dev di build rilis,indikasi-statis,—
+GOPAY-R1,GoPay,rendah,CI build-path leak (merchant-qr),terverifikasi-string,—
+GOPAY-R2,GoPay,rendah,String RSA/ECB perlu review padding,indikasi-statis,GOPAY-TODO-ST-4
+GOPAY-R3,GoPay,rendah,Permission sensitif luas (9 dangerous),terverifikasi-manifest,TODO-DYN-1 (pemakaian runtime)
+GOPAY-R4,GoPay,rendah,2 exported SSO Activity (auth-related),terverifikasi-manifest,—
+GOPAY-R5,GoPay,rendah,Inventory API terekspos (inheren client app),info,—
+GOFOOD-M1,GoFood,menengah,Google API key di manifest (AIza…E0ROM len=39),TRUE_KEY (dampak belum),GOFOOD-TODO-ST-3
+GOFOOD-M2,GoFood,menengah,Cleartext untuk 4 domain (termasuk lite.privydev.id),terverifikasi-netsec,—
+GOFOOD-M3,GoFood,menengah,URL staging/dev di build rilis,indikasi-statis,—
+GOFOOD-R1,GoFood,rendah,Nama instance Firebase DB terekspos,terverifikasi-string,GOFOOD-TODO-NET-4
+GOFOOD-R2,GoFood,rendah,Permission READ_PRIVILEGED_PHONE_STATE,terverifikasi-manifest,—
+GOFOOD-R3,GoFood,rendah,Permission berbahaya luas (14 dangerous + BT/media/kontak-tulis),terverifikasi-manifest,TODO-DYN-1 (pemakaian runtime)
+GOFOOD-R4,GoFood,rendah,PreviewActivity (compose tooling) ikut exported,terverifikasi-manifest,—
+GOFOOD-R5,GoFood,rendah,Skema deeplink http + wildcard *,terverifikasi-manifest,—

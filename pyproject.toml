@@ -1,0 +1,69 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "QrisMerchantID"
+version = "0.3.1"
+description = "Unofficial Indonesian QRIS merchant API client for Python — GoPay/GoBiz + ShopeePay (manual-token feed)"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "AlfinAI" }]
+keywords = ["qris", "gopay", "gobiz", "shopeepay", "merchant", "payment", "indonesia", "sdk"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = [
+    "httpx>=0.27",
+]
+
+[project.urls]
+Homepage = "https://github.com/AlfinAI/QrisMerchantID"
+Repository = "https://github.com/AlfinAI/QrisMerchantID"
+Issues = "https://github.com/AlfinAI/QrisMerchantID/issues"
+Changelog = "https://github.com/AlfinAI/QrisMerchantID/blob/main/CHANGELOG.md"
+Reference-GoBiz = "https://github.com/kavionn/gobiz-payment"
+Reference-ShopeePay = "https://github.com/alhifnywahid/merchantid"
+Reference-OVO = "https://github.com/lintangtimur/ovoid"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8",
+    "pytest-cov>=6",
+    "ruff>=0.8",
+    "mypy>=1.11",
+    "build>=1.2",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src", "."]
+addopts = "--cov=qrismerchantid --cov-report=term-missing --cov-fail-under=80 -q"
+
+[tool.coverage.run]
+source = ["qrismerchantid"]
+omit = ["*/tests/*"]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 110
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.mypy]
+python_version = "3.10"
+strict = true
+show_error_codes = true

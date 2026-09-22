@@ -1,0 +1,115 @@
+# Endpoint statis — GoFood Merchant 5.49.0 (com.gojek.resto)
+# Sumber: grep smali* (16/16 dex) + res/values. String statis saja — host aktif,
+# header & auth BELUM TERVERIFIKASI (TODO-NET-1). Lihat APK_GOFOOD_MERCHANT_5.49.0_ANALYSIS.md §5.
+
+## HOST (unik, relevansi merchant)
+/api.gojekapi.com           https://api.gojekapi.com/
+/goid.gojekapi.com          https://goid.gojekapi.com/            (auth GoID)
+/i.gojekapi.com             CDN darkroom (cleartext diizinkan, M2)
+/api.gobiz.co.id            https://api.gobiz.co.id/              (gateway GoBiz)
+/app.gobiz.co.id            /micro-app/pos /onboarding/pos/activated /verify-onboarding/intro
+/app.gobiz.com              /files/static/gobiz-instant/bank_list.json
+/customer.gopayapi.com      API customer GoPay
+/gopay.co.id                T&C
+/mpp-tnc-cos.golabs.io      /public/gobiz_tnc_2025_04_15.html
+/privy.id                   e-sign
+/findaya.com                /mobile/privacy-policy/
+/assets.goidentitas.id      aset identitas
+/STAGING: customer.staging.gopayapi.com, i-integration.gojekapi.com, accounts-integration.goto-products.com
+/FIREBASE-DB: https://go-resto-v2.firebaseio.com  (rules BELUM TERVERIFIKASI, tidak diuji)
+
+## PATH — auth & PIN (paymentsdk, identik GoPay Merchant)
+/api/v1/users/pin/challenges
+/api/v1/users/pin/tokens
+/api/v1/users/pins/allowed
+/api/v1/users/pins/reset/tokens
+/api/v1/users/pins/setup/tokens
+/api/v2/challenges/{challenge-id}/pin-page
+/api/v2/users/pins/reset/tokens
+/api/v2/users/pins/setup/tokens
+/v2/users/pin/update
+/v3/users/pin/update
+
+## PATH — gofood merchant
+gofood/merchant/v1/config
+/gofood/merchant/v2/ocr/catalog/predict
+
+## PATH — EDC/kartu/offline
+/v1/edc/createtoken
+/v2/charge
+/v2/point_inquiry
+/v3/balance_inquiry
+/v2/order/{id}/channel
+/v2/{identifier}/status
+/v2/{identifier}/cancel
+/v2/{identifier}/reversal
+/v2/{transaction_id}/event/edc/metadata/{event_name}
+
+## PATH — settlement & payout
+/v3/settlement
+/v3/auto-payout-settings/search
+
+## PATH — change-request & profil
+/v1/change_requests
+/v3/change_requests
+/v3/change_requests/search
+/v3/change_requests/validate
+/v3/change_requests/{container_id}
+/v3/status_mapping
+/v3/addresses/update_requests
+/v3/addresses/update_requests/{id}
+/v3/outlet_profiles/update_requests
+/v3/outlet_profiles/update_requests/{facet_id}
+/v3/{facet_path}/config
+
+## PATH — onboarding workflow
+/use_cases/v1/processes
+/use_cases/v1/processes/{namespace}/{flow_name}/init
+/use_cases/v1/processes/{process_id}
+/use_cases/v1/processes/{process_id}/interactions/0
+/use_cases/v1/processes/{process_id}/steps/AddBankAccountDetails
+/use_cases/v1/processes/{process_id}/steps/AddOutletDetails
+/use_cases/v1/processes/{process_id}/steps/ProductEligibility
+/use_cases/v1/processes/{process_id}/steps/SelectProduct
+/use_cases/v1/processes/{process_id}/steps/SubmitKYC
+/use_cases/v1/processes/{process_id}/steps/SubmitOnboardingData
+/use_cases/v1/processes/{process_id}/steps/ValidateBankAccountDetails
+/use_cases/v1/processes/{process_id}/steps/{step_name}
+/public/workflow/v1/change-bank-account/account-check/inquiry
+/public/workflow/v1/change-bank-account/precheck/inquiry
+/public/workflow/v1/change-bank-account/store-account/submit
+/public/workflow/v1/change-bank-account/store-account/{id}/commit
+/v1/onboardings/upload_url
+/v3/documents/upload_url
+/v1/individual-entity-gfma/{execution_id}
+/v1/individual-entity-gfma/{execution_id}/product-eligibility
+/v1/individual-entity-gfma/{execution_id}/select-product
+/v1/individual-entity-gfma/{execution_id}/submit-kyc
+/v3/register
+/v1/users/validate_eligibility
+
+## PATH — chat & device
+/v1/chat/profiles/me
+/v3/chat/channels/{id}
+/v1/devices/push_token
+/v1/instantfeedback
+/v1/instantfeedback/{channel_name}
+
+## PATH — konten & search
+/v1/api/article/{id}
+/v1/api/feedback/reasons
+/v1/api/feedback/submit
+/v1/api/nanoarticle
+/v1/api/search
+/v1/api/search/common
+/v2/api/articlegroup
+/v2/api/articlegroup/{id}
+/v3/api/articlegroup
+/ui/v1/app/{merchantId}/conversion_funnel_page
+
+## PATH — payments
+/v1/payments/search
+
+## DEEPLINK
+scheme: gofoodmerchant:// gobiz:// gojek:// https http *
+applink host attrs (token rute in-app): bff_generic_screen, clipship

@@ -1,0 +1,36 @@
+host,peran,apk_sumber,terverifikasi,catatan
+api.gojekapi.com,API Gojek umum,keduanya,ya (string statis),Help/zendesk merchant (GoPay)
+i.gojekapi.com,CDN darkroom,keduanya,ya (string statis),Cleartext diizinkan di GoFood (M2)
+gopay-merchant-raccoon.gojekapi.com,WebSocket event realtime (wss /api/v1/events),GoPay-only,ya (string statis),Protobuf odpf.raccoon.v1beta1
+gopaymerchant.midtrans.com,Gateway merchant Midtrans,GoPay-only,ya (string statis),—
+customer.gopayapi.com,API customer GoPay,keduanya,ya (string statis),—
+customer-web.gopayapi.com,Web customer GoPay,GoPay-only,ya (string statis),—
+app.gwk.gopayapi.com,Gateway wallet (/unified-transfers),GoPay-only,ya (string statis),—
+onekyc.ky.id.gopayapi.com,KYC,GoPay-only,ya (string statis),—
+accounts.goto-products.com,SSO GoTo (prod),GoPay-only,ya (string statis),—
+goid.gojekapi.com,Auth GoID,GoFood-only,ya (string statis),Kandidat auth terpadu
+api.gobiz.co.id,Gateway merchant GoBiz,GoFood-only,ya (string statis),BFF utama GoFood
+app.gobiz.co.id,Web merchant (POS micro-app + onboarding),GoFood-only,ya (string statis),/micro-app/pos /onboarding/pos/activated /verify-onboarding/intro
+app.gobiz.com,Dokumen/statis GoBiz,keduanya,ya (string statis),T&C (GoPay) + bank_list.json (GoFood)
+merchant.gopay.co.id,Web merchant,GoPay-only,ya (string statis),—
+app.gopay.co.id,Install banner / web,GoPay-only,ya (string statis),—
+gopay.co.id,T&C GoPay,keduanya,ya (string statis),—
+gojek.com,Web Gojek,keduanya,ya (string statis),Varian www. di GoFood
+go-jek.com,Web Gojek (lama),GoFood-only,ya (string statis),go-food/bisnis + go-biz ToS
+www.go-pay.co.id,Web GoPay (lama),GoPay-only,ya (string statis),—
+mpp-tnc-cos.golabs.io,T&C GoBiz,GoFood-only,ya (string statis),gobiz_tnc_2025_04_15.html
+privy.id,E-sign,GoFood-only,ya (string statis),KYC/registrasi
+www.findaya.com,Kebijakan privasi Findaya,GoFood-only,ya (string statis),Lending
+assets.goidentitas.id,Aset identitas,GoFood-only,ya (string statis),—
+go-resto-v2.firebaseio.com,Firebase Realtime DB instance,GoFood-only,ya (nama instance),Rules BELUM TERVERIFIKASI (R1)
+customer.staging.gopayapi.com,Staging API customer,keduanya (staging),ya (string statis),M3
+customer.sandbox.gopayapi.com,Sandbox API customer,GoPay-only (staging),ya (string statis),M3
+customer-web.staging.gopayapi.com,Staging web customer,GoPay-only (staging),ya (string statis),M3
+i-integration.gojekapi.com,CDN staging,keduanya (staging),ya (string statis),M3
+app.integration-gwk.gopayapi.com,Gateway wallet staging,GoPay-only (staging),ya (string statis),M3
+gopaymerchant.stg.midtrans.com,Gateway Midtrans staging,GoPay-only (staging),ya (string statis),M3
+accounts-integration.goto-products.com,SSO staging,GoFood-only (staging),ya (string statis),M3
+accounts-q.goto-products.com,SSO dev,GoPay-only (staging),ya (string statis),M3
+app.staging.findaya.co.id,Findaya staging,GoPay-only (staging),ya (string statis),M3
+s3.amazonaws.com,CDN (cleartext diizinkan),GoFood-only (netsec),ya (network-security-config),M2
+lite.privydev.id,Domain dev Privy (cleartext),GoFood-only (netsec),ya (network-security-config),M2
