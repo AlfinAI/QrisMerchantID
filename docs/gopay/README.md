@@ -188,7 +188,7 @@ gopay = GoPayMerchant(
     timeout=30.0,       # seconds
     max_retries=2,      # transport errors only — never HTTP errors
     backoff_base=0.5,   # exponential: 0.5s, 1s, 2s, ...
-    app_version="platform-v3.122.0-72edb090",  # default follows the analyzed portal
+    app_version="platform-v3.125.0-e1923971",  # default follows the analyzed portal
     user_agent="...",
 )
 ```

@@ -1,5 +1,7 @@
 # GoPay auth — GoID login (password + OTP)
 
+As of 2026-10-03, browser GoID auth uses `https://portal.gofoodmerchant.co.id/goid/*`; merchant/data APIs remain on `https://api.gobiz.co.id`. The default portal build is `platform-v3.125.0-e1923971` with Chrome 148 metadata. Override with `QRISMERCHANTID_GOPAY_APP_VERSION` when the portal build changes.
+
 Source of truth: live portal HAR (Sep 2026, research §9). Both login endpoints answer **HTTP 201**
 and require the full device header set (handled by the client).
 

@@ -39,7 +39,7 @@ class GoPayMerchant:
         timeout: float = 30.0,
         max_retries: int = 2,
         backoff_base: float = 0.5,
-        app_version: str = C.APP_VERSION,
+        app_version: str | None = None,
         user_agent: str = C.USER_AGENT,
     ) -> None:
         self.client = GoPayClient(

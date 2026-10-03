@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+### Fixed
+
+- GoPay: updated the default portal build header to `platform-v3.125.0-e1923971`, observed in the public GoFood Merchant portal bootstrap on 2026-10-03. This addresses the `POST /goid/token` "please update the official app" rejection reported in Issue #1.
+- GoPay: routed `/goid/*` authentication through `https://portal.gofoodmerchant.co.id`, as shown by the new browser HAR; merchant/data APIs remain on `https://api.gobiz.co.id`.
+- GoPay: aligned the browser device metadata to Chrome 148 from the new HAR and added `QRISMERCHANTID_GOPAY_APP_VERSION` as a runtime override so a future portal build change does not require a code edit.
+
 ## [0.3.1] - 2026-09-22
 
 ### Added

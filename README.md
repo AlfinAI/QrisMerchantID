@@ -20,6 +20,16 @@ One Python package for Indonesia's QRIS merchant APIs — read your own merchant
 tested, offline-friendly code:
 
 - 🧾 **GoPay / GoBiz** — OTP or email+password login, merchants, transactions, payouts, dynamic QRIS,
+
+### GoPay OTP portal compatibility
+
+The current browser portal uses `https://portal.gofoodmerchant.co.id` for `/goid/login/request` and `/goid/token`; merchant/data APIs remain on `https://api.gobiz.co.id`. The default browser build is `platform-v3.125.0-e1923971` with Chrome 148 metadata. If GoBiz rolls a new build, override it without editing code:
+
+```bash
+export QRISMERCHANTID_GOPAY_APP_VERSION="platform-v3.xxxxx"
+```
+
+Read `otp_length` from the `request_otp()` response; do not assume the OTP is six digits.
   payment watcher.
 - 🛍️ **ShopeePay** — OTP login (or manual `B:` token), stores, normalized feed with issuer lookup,
   payment watcher.

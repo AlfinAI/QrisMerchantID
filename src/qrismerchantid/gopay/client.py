@@ -8,6 +8,7 @@ data calls use a slimmer set. ``X-AppVersion`` defaults to the observed live val
 from __future__ import annotations
 
 import json
+import os
 import time
 import uuid
 from typing import Any
@@ -42,7 +43,7 @@ class GoPayClient:
         timeout: float = 30.0,
         max_retries: int = 2,
         backoff_base: float = 0.5,
-        app_version: str = C.APP_VERSION,
+        app_version: str | None = None,
         user_agent: str = C.USER_AGENT,
     ) -> None:
         self._transport: HttpTransport = transport or HttpxTransport(timeout=timeout)
@@ -50,7 +51,7 @@ class GoPayClient:
         self._refresh_token = refresh_token
         self._max_retries = max_retries
         self._backoff_base = backoff_base
-        self._app_version = app_version
+        self._app_version = app_version or os.getenv("QRISMERCHANTID_GOPAY_APP_VERSION", C.APP_VERSION)
         self._user_agent = user_agent
         self._unique_id = str(uuid.uuid4())
 
@@ -170,7 +171,7 @@ class GoPayClient:
         headers["X-UniqueId"] = str(uuid.uuid4())
         status, text = self._transport.request(
             "POST",
-            C.BASE_URL + "/goid/token",
+            C.AUTH_BASE_URL + "/goid/token",
             json.dumps(
                 {
                     "client_id": C.CLIENT_ID,
@@ -221,11 +222,12 @@ class GoPayClient:
         data: dict[str, Any] | None = None,
         *,
         auth_call: bool = False,
-        base_url: str = C.BASE_URL,
+        base_url: str | None = None,
         extra_headers: dict[str, str] | None = None,
     ) -> dict[str, Any]:
-        """POST a JSON ``data`` body to ``base_url + path``."""
-        return self.request("POST", base_url + path, data, auth_call=auth_call, extra_headers=extra_headers)
+        """POST a JSON ``data`` body to the portal auth host or API host."""
+        host = base_url or (C.AUTH_BASE_URL if auth_call else C.BASE_URL)
+        return self.request("POST", host + path, data, auth_call=auth_call, extra_headers=extra_headers)
 
     def close(self) -> None:
         """Close the internally created httpx client (no-op for injected fakes)."""

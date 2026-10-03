@@ -8,6 +8,12 @@ from qrismerchantid.gopay.client import GoPayClient
 from tests.conftest import FakeHttpClient, ScriptedTransport
 
 
+def test_app_version_can_be_overridden_by_environment(monkeypatch):
+    monkeypatch.setenv("QRISMERCHANTID_GOPAY_APP_VERSION", "platform-v3.test-build")
+    client = GoPayClient(transport=FakeHttpClient())
+    assert client.auth_headers()["X-AppVersion"] == "platform-v3.test-build"
+
+
 def test_auth_headers_use_full_device_set():
     client = GoPayClient()
     headers = client.auth_headers()
@@ -45,7 +51,7 @@ def test_set_access_token_updates_both_header_sets():
 def test_post_uses_auth_headers_for_auth_calls():
     fake = FakeHttpClient((201, {"access_token": "t"}))
     GoPayClient(transport=fake).post("/goid/token", {"a": 1}, auth_call=True)
-    assert fake.last_url == "https://api.gobiz.co.id/goid/token"
+    assert fake.last_url == "https://portal.gofoodmerchant.co.id/goid/token"
     assert fake.last_json == {"a": 1}
     assert fake.last_headers["x-appId"] == "go-biz-web-dashboard"
 
