@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [0.3.2] - 2026-10-03
+
 ### Fixed
 
 - GoPay: updated the default portal build header to `platform-v3.125.0-e1923971`, observed in the public GoFood Merchant portal bootstrap on 2026-10-03. This addresses the `POST /goid/token` "please update the official app" rejection reported in Issue #1.

@@ -143,6 +143,7 @@ print("PAID:", paid["id"])
 - [ ] Live verification against real partner accounts (TODO-S1, TODO-R3) — field reports welcome in
       [Discussions](https://github.com/AlfinAI/QrisMerchantID/discussions).
 - [x] `v0.3.0` source release.
+- [x] `v0.3.2` GoPay browser OTP compatibility release.
 - [ ] PyPI publication — prepare-only until a clean secret scan and release review are complete.
 - [ ] Your idea here — open a Discussion or a feature request.
 

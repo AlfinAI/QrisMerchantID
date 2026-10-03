@@ -3,6 +3,7 @@
 ## Supported versions
 
 | Version       | Supported     |
+| `0.3.2`       | Yes           |
 | ------------- | ------------- |
 | 0.1.x (alpha) | ✅ best-effort |
 
