@@ -11,7 +11,7 @@ import json
 import os
 import time
 import uuid
-from typing import Any
+from typing import Any, cast
 from urllib.parse import urlencode
 
 import httpx
@@ -51,7 +51,9 @@ class GoPayClient:
         self._refresh_token = refresh_token
         self._max_retries = max_retries
         self._backoff_base = backoff_base
-        self._app_version = app_version or os.getenv("QRISMERCHANTID_GOPAY_APP_VERSION", C.APP_VERSION)
+        self._app_version: str = cast(
+            str, app_version or os.getenv("QRISMERCHANTID_GOPAY_APP_VERSION", C.APP_VERSION)
+        )
         self._user_agent = user_agent
         self._unique_id = str(uuid.uuid4())
 
