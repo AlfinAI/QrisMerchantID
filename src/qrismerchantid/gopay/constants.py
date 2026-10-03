@@ -1,6 +1,10 @@
 """GoBiz API constants.
 
-Sources: live portal capture (HAR, Sep 2026 — research §9) plus the public GoFood Merchant portal bootstrap and kavionn/gobiz-payment. Defaults mirror a desktop-Chrome portal session; override ``app_version``/``user_agent`` on the client, or set ``QRISMERCHANTID_GOPAY_APP_VERSION``, if the portal moves on.
+Sources: live portal capture (HAR, Sep 2026 — research §9),
+the public GoFood Merchant portal bootstrap, and kavionn/gobiz-payment.
+Defaults mirror a desktop-Chrome portal session. Override ``app_version`` /
+``user_agent`` on the client, or set ``QRISMERCHANTID_GOPAY_APP_VERSION``,
+when the portal moves on.
 """
 
 from __future__ import annotations
