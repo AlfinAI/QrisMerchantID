@@ -1,175 +1,85 @@
-# ShopeePay partner — provider guide
+# ShopeePay Partner guide
 
-[← back to main README](../../README.md)
+[← Documentation home](../README.md) · [← Main README](../../README.md)
 
-Manual-token provider (B1): paste a `B:...` token from your own portal session, then one facade
-sharing a single client. Programmatic OTP login arrives in FASE B2.
+This guide covers the `ShopeePayPartner` facade. It supports a manual `B:` token and programmatic OTP login, then exposes stores, a normalized transaction feed, and a payment watcher.
 
 ```python
 from qrismerchantid import ShopeePayPartner
 
-sp = ShopeePayPartner(token="B:...")   # or ShopeePayPartner() + sp.set_token(...)
-sp.stores         # list_stores() — cursor-paged discovery
-sp.transactions   # list_recent(store_id) — normalized feed
-sp.watch(...)     # payment watcher factory (store-scoped)
+sp = ShopeePayPartner(token="B:...")
+# sp.auth, sp.stores, sp.transactions
 ```
 
-Service pages: [auth](auth.md) · [token](token.md) · [stores](stores.md) ·
-[transactions](transactions.md) · [watcher](watcher.md) · [device-risk](device-risk.md)
+## Before you start
 
-## 1. Login — OTP (or manual token)
+- Use a token or account you own or are authorized to test.
+- The fastest path is [a manual token](token.md); use [OTP login](auth.md) when you need a repeatable login flow.
+- Normalized transaction amounts are **whole rupiah**. `409_662` means Rp409.662.
+- Store IDs are numeric strings and are required by the feed and watcher.
 
-Two ways to authenticate. Programmatic OTP login (B2):
+## Common workflow
+
+### 1. Authenticate
+
+Manual token:
 
 ```python
-challenge = sp.auth.request_otp("0812xxxxxxx", password="...")  # + device_report, see below
+sp = ShopeePayPartner(token="B:...")
+```
+
+Programmatic OTP:
+
+```python
+challenge = sp.auth.request_otp("0812xxxxxxx", password="...")
 outcome = sp.auth.login_with_otp(challenge, input("OTP: "))
-# -> {"status": "complete", "session": {...}}  (or "merchant-selection-required")
 session = outcome["session"]
-
-import json
-json.dump(session, open(".shopee-session.json", "w"))  # persist: cookies + token inside
-
-# next run: restore + renew without OTP
-session = json.load(open(".shopee-session.json"))
-session = sp.auth.refresh_session(session)   # raises when only a fresh OTP recovers
 sp.set_token(session["token"])
 ```
 
-Multi-merchant accounts without `merchant_id=` stop at `"merchant-selection-required"` — show
-`outcome["merchants"]`, then `sp.auth.complete_login(outcome["verification"], merchant_id=...)`. No
-second OTP needed. Full guide: [auth.md](auth.md).
+A multi-merchant account returns `merchant-selection-required` instead of guessing. Follow [auth.md](auth.md) to select a merchant and renew a session without requesting another OTP.
 
-> **OTP delivery needs telemetry.** Without a `device_report` blob the issuer returns a degraded
-> risk token and Shopee silently withholds the code. Capture the blob from YOUR own browser —
-> [device-risk.md](device-risk.md). No shared blob is shipped with this package, deliberately.
+> OTP delivery may require device-risk telemetry from your own browser. The project does not ship a shared device fingerprint or risk blob; see [device-risk.md](device-risk.md).
 
-Alternative: paste a manual `B:` token ([token.md](token.md)) — 2 minutes, no login flow, but
-re-paste on every rotation.
-
-## 2. Stores
+### 2. Discover a store and read transactions
 
 ```python
 stores = sp.stores.list_stores()
-# -> [{"id": "7", "name": "My Shop", "status": 1}, ...]
+store_id = stores[0]["id"]
+feed = sp.transactions.list_recent(store_id, minutes=15)
+print(len(feed["transactions"]))
 ```
 
-`list_stores()` walks the `lastStoreId` cursor until the batch runs short (or `storeCount` is
-reached). When the `[1, 10]` service filter yields zero stores, it retries once with the filter
-omitted entirely — stores without a service still show up. Keep the numeric `id`: the feed and the
-watcher are store-scoped.
+The normalized feed uses epoch seconds for time filters and removes rows belonging to another store. See [stores.md](stores.md) and [transactions.md](transactions.md).
 
-## 3. Transactions
+### 3. Optional: watch a payment
 
 ```python
-feed = sp.transactions.list_recent(7, minutes=15)
-feed = sp.transactions.list_recent(7, start_time=1784050000, end_time=1784053600)
-# -> {"transactions": [...], "pages_fetched": 1, "truncated": False}
+watcher = sp.watch(store_id)
+watcher.seed()  # call before displaying the QR
+paid = watcher.wait_for_payment(409_662, timeout=300)
 ```
 
-Each transaction is normalized:
+Use [watcher.md](watcher.md) for polling, deduplication, and replay handling. The QRIS helper is provider-agnostic and local-only; the GoPay page documents it in [qris.md](../gopay/qris.md).
 
-```python
-{
-    "id": "264693445089687719",   # 18-digit transactionId
-    "order_id": "EXT-1",          # external -> display -> transactionId fallback
-    "amount_idr": 409662,         # WHOLE rupiah (see below!)
-    "create_time": 1784050000,    # epoch seconds
-    "create_time_iso": "2026-07-14T17:26:40.000Z",
-    "store_id": "7",
-    "merchant_id": "42",
-    "status": 3,
-    "completed": True,            # only status == 3 counts
-    "payment_type": "shopee:1",
-    "raw": {...},                 # untouched wire row
-}
-```
-
-Three things that differ from GoPay: amounts are **whole rupiah** (the wire sends grouped strings —
-`"409.662"` = Rp409.662 — parsed with `shopee.money.parse_id_amount()`, never minor units); time
-filters are **epoch seconds**; the feed is **cursor-paged** (`next_position`, page cap 10).
-
-Scope & safety: rows from other stores are dropped (`merchant_id=` adds a second check),
-`transactionId` dedupes across pages, malformed rows are skipped (never guessed), and a
-non-advancing cursor raises instead of looping.
-
-## 4. Payment watcher
-
-Same seed → poll → match-nominal shape as GoPay, but amounts are whole rupiah and only `completed`
-transactions match:
-
-```python
-watcher = sp.watch(7)   # store_id; poll_interval=10.0 like the reference gateway
-watcher.seed()          # mark current history seen -> count
-fresh = watcher.poll_once()  # only never-seen txs (seen cache capped at 500)
-
-paid = watcher.wait_for_payment(409662, timeout=300)              # Rp409.662
-paid = watcher.wait_for_payment(409662, timeout=300, tolerance=100)
-# -> normalized tx dict; raises TimeoutError when the invoice lapses
-```
-
-Gateway recipe:
-
-1. `qris.inject_amount(static_qris, bill)` (+ unique code Rp1–99) → show QR. (Reuse
-   `qrismerchantid.gopay.qris` — EMVCo injection is provider-agnostic.)
-2. `watcher.seed()` when the checkout opens.
-3. `wait_for_payment(bill_idr, timeout=300)` → on success, record the `id` / `order_id` in YOUR
-   database and reject replays; on `TimeoutError`, expire the invoice.
-
-Etiquette: poll only while a checkout is active (~10s cadence) — the reference gateway scales
-requests with active buyers and sends zero when the shop is quiet. Hammering the feed is how tokens
-get rate-limited.
-
-## 5. Configuration
+## Configuration
 
 ```python
 sp = ShopeePayPartner(
     token="B:...",
-    timeout=30.0,       # seconds
-    max_retries=2,      # transport errors only — never HTTP errors
-    backoff_base=0.5,   # exponential: 0.5s, 1s, 2s, ...
-    language="id",      # data.metadata locale
+    timeout=30.0,
+    max_retries=2,      # transport errors only
+    backoff_base=0.5,
+    language="id",
     timezone="Asia/Jakarta",
-    user_agent="...",
 )
 ```
 
-Need HTTP/2, a proxy, or a custom CA? Pass your own transport:
+## Pages
 
-```python
-import httpx
-from qrismerchantid.core.transport import HttpxTransport
-
-transport = HttpxTransport(httpx.Client(http2=True, proxy="http://localhost:8080"))
-sp = ShopeePayPartner(token="B:...", transport=transport)
-```
-
-## Merchant flow
-
-How money moves through ShopeePay, end to end. (GitHub renders this as a diagram automatically.)
-
-```mermaid
-sequenceDiagram
-    autonumber
-    actor Buyer
-    participant Store as Your Store
-    participant SDK as QrisMerchantID
-    participant SP as ShopeePay Partner API
-    Store->>SDK: ShopeePayPartner(token B:...)
-    Store->>SDK: qris.inject_amount(static_qris, bill)
-    Note over SDK: Tag 54 + CRC16, fully offline
-    SDK-->>Store: dynamic QRIS string
-    Store->>Buyer: Display QR code
-    Buyer->>Buyer: Scans and pays
-    Store->>SDK: watch(store_id).seed()
-    loop Every 10s, checkout active only
-        SDK->>SP: POST get-transaction-list
-        SP-->>SDK: tx list (whole rupiah)
-    end
-    SDK-->>Store: wait_for_payment() returns tx (or TimeoutError)
-    Store->>Store: Record id/order_id, reject replays
-```
-
-## Contact
-
-Questions about this provider? Telegram: [@JoestarMojo](https://t.me/JoestarMojo).
+- [Authentication and session renewal](auth.md)
+- [Manual token](token.md)
+- [Stores](stores.md)
+- [Transactions](transactions.md)
+- [Payment watcher](watcher.md)
+- [Device-risk telemetry](device-risk.md)

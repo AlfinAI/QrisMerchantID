@@ -1,7 +1,7 @@
-"""QrisMerchantID — unofficial Indonesian QRIS merchant API client for Python.
+"""Unofficial Indonesian QRIS merchant API client for Python.
 
-Providers: GoPay/GoBiz merchant (FASE A1+), ShopeePay partner (FASE B1:
-manual-token feed; programmatic login is B2).
+The package provides GoPay/GoBiz and ShopeePay Partner facades. Use the
+provider guides in ``docs/`` for authentication, units, and safety notes.
 """
 
 from __future__ import annotations

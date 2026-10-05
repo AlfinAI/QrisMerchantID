@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+- Reorganized the README and documentation hub around a beginner-friendly provider workflow.
+- Added clearer guidance for authentication, amount units, session safety, research status, and payment watching.
+- Corrected outdated provider overview wording and cross-links.
+
+
 ## [Unreleased]
 
 ## [0.3.2] - 2026-10-03
