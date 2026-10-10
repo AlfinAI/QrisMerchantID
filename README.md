@@ -1,80 +1,56 @@
 <p align="center">
   <img src="assets/logo.png" alt="QrisMerchantID logo" width="140" />
 </p>
-
-<h1 align="center">QrisMerchantID</h1>
-
 <p align="center">
-  Unofficial Indonesian QRIS merchant API client for Python — GoPay/GoBiz + ShopeePay
+    <em>Unofficial Indonesian QRIS merchant API client for Python — GoPay/GoBiz + ShopeePay</em>
+</p>
+<p align="center">
+<a href="https://github.com/AlfinAI/QrisMerchantID/actions/workflows/test.yml">
+    <img src="https://github.com/AlfinAI/QrisMerchantID/actions/workflows/test.yml/badge.svg" alt="Tests">
+</a>
+<a href="https://pypi.org/project/QrisMerchantID/">
+    <img src="https://img.shields.io/pypi/v/QrisMerchantID.svg" alt="PyPI version">
+</a>
+<a href="https://pypi.org/project/QrisMerchantID/">
+    <img src="https://img.shields.io/pypi/pyversions/QrisMerchantID.svg" alt="Supported Python versions">
+</a>
+<a href="LICENSE">
+    <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT">
+</a>
+<a href="https://t.me/JoestarMojo">
+    <img src="https://img.shields.io/badge/Telegram-@JoestarMojo-26A5E4?logo=telegram" alt="Telegram">
+</a>
 </p>
 
-<p align="center">
-  <a href="https://github.com/AlfinAI/QrisMerchantID/actions/workflows/test.yml"><img src="https://github.com/AlfinAI/QrisMerchantID/actions/workflows/test.yml/badge.svg" alt="Tests" /></a>
-  <a href="https://pypi.org/project/QrisMerchantID/"><img src="https://img.shields.io/pypi/v/QrisMerchantID.svg" alt="PyPI" /></a>
-  <a href="https://pypi.org/project/QrisMerchantID/"><img src="https://img.shields.io/pypi/pyversions/QrisMerchantID.svg" alt="Python" /></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT" /></a>
-  <a href="https://t.me/JoestarMojo"><img src="https://img.shields.io/badge/Telegram-@JoestarMojo-26A5E4?logo=telegram" alt="Telegram" /></a>
-  <a href="https://github.com/AlfinAI/QrisMerchantID/discussions"><img src="https://img.shields.io/github/discussions/AlfinAI/QrisMerchantID?label=discussions" alt="Discussions" /></a>
-</p>
+---
 
-> ⚠️ **Unofficial research project.** Not affiliated with, endorsed by, or supported by GoTo,
-> GoPay, GoBiz, Shopee, Sea Group, or any reference-repo author. For **research and educational
-> purposes only** — unofficial APIs may violate providers' Terms of Service and can lead to rate
-> limits, suspension, or termination of your accounts. **Use entirely at your own risk.**
-> <details><summary>Full disclaimer (English + Bahasa Indonesia)</summary>
->
-> **English.** This is an **unofficial, independent research project**. It is provided without
-> warranty of any kind. The author (AlfinAI) shall not be liable for any loss, damage, account
-> action, or legal consequence arising from its use. Credentials and tokens you enter stay on your
-> machine (they are only ever sent to the providers' own official servers) — never commit `.env`,
-> `*.har`, or token/OTP cache files to any repository.
->
-> **Bahasa Indonesia.** Ini adalah **proyek riset independen yang tidak resmi (unofficial)**.
-> TIDAK berafiliasi, didukung, atau disetujui oleh GoTo, GoPay, GoBiz, Shopee, Sea Group, maupun
-> author repo referensi mana pun. Disediakan **hanya untuk riset dan edukasi**, tanpa jaminan apa
-> pun. **Segala risiko dan akibat yang timbul sepenuhnya menjadi tanggung jawab pengguna.**
-> Kredensial/token hanya tersimpan di mesin Anda — jangan pernah commit file `.env`, `*.har`,
-> atau cache token/OTP ke repo mana pun.
-> </details>
+**Documentation**: [docs/](docs/) · **Changelog**: [CHANGELOG.md](CHANGELOG.md) · **Source Code**: [https://github.com/AlfinAI/QrisMerchantID](https://github.com/AlfinAI/QrisMerchantID)
 
-One Python package for Indonesia's QRIS merchant APIs — read your own merchant data with typed,
-tested, offline-friendly code.
+---
 
-## Features
+**QrisMerchantID** is a Python client for Indonesia's QRIS merchant APIs — read your own merchant
+data with **typed, tested, offline-friendly** code.
 
-| Provider          | Capabilities                                                                                 |
-| ----------------- | -------------------------------------------------------------------------------------------- |
-| 🧾 GoPay / GoBiz  | OTP or email+password login · merchants · transactions · payouts · dynamic QRIS · payment watcher |
-| 🛍️ ShopeePay      | OTP login or manual `B:` token · stores · normalized feed with issuer lookup · payment watcher |
+The key features are:
 
-- 🔬 **Researched, not guessed** — every endpoint traced to a traffic capture or a reference repo;
-  unknowns are marked `TODO`, never shipped as fact.
-- 🧪 **Offline-first** — the full test suite runs without network access or credentials.
+* **GoPay / GoBiz** — OTP or email+password login, merchants, transactions, payouts, dynamic QRIS, and a payment watcher.
+* **ShopeePay** — OTP login or manual `B:` token, stores, a normalized transaction feed with issuer lookup, and a payment watcher.
+* **Researched, not guessed** — every endpoint traced to a traffic capture or a reference repo; unknowns are marked `TODO`, never shipped as fact.
+* **Offline-first** — the full test suite runs with no network access and no credentials.
 
-## Contents
-
-- [Installation](#installation)
-- [Quickstart](#quickstart)
-- [Documentation](#documentation)
-- [Core concepts](#core-concepts) — money · sessions · errors
-- [Configuration](#configuration) — portal compatibility & environment variables
-- [Examples](#examples)
-- [Development](#development)
-- [Research](#research)
-- [Roadmap](#roadmap)
-- [Contributing](#contributing)
-- [Credits](#credits) · [Contact](#contact) · [Sponsor](#sponsor)
-- [License](#license)
+> **Unofficial research project** — not affiliated with GoTo, GoPay, GoBiz, Shopee, or Sea Group.
+> For research and educational use only; unofficial APIs may violate providers' Terms of Service.
+> **Use at your own risk.** Full text: [Disclaimer](#disclaimer).
 
 ## Installation
 
-```bash
-pip install QrisMerchantID
+```console
+$ pip install QrisMerchantID
 ```
 
-Requires **Python 3.10+** and one dependency: [`httpx`](https://www.python-httpx.org/).
+Requires **Python 3.10+**. One dependency: [httpx](https://www.python-httpx.org/).
 
-## Quickstart
+## Example
 
 ```python
 from qrismerchantid import GoPayMerchant, ShopeePayPartner
@@ -100,10 +76,10 @@ print("PAID:", paid["id"])
 
 Each provider has its own guide with the full tutorial and flow diagrams:
 
-| Provider          | Guide                      | Status                                                            |
-| ----------------- | -------------------------- | ----------------------------------------------------------------- |
-| GoPay / GoBiz     | [docs/gopay/](docs/gopay/)   | ✅ auth, users, merchants, transactions, payouts, QRIS, watcher    |
-| ShopeePay partner | [docs/shopee/](docs/shopee/) | ✅ OTP login, stores, transactions + issuer, watcher (`B:` or OTP) |
+| Provider | Guide | Status |
+| -------- | ----- | ------ |
+| GoPay / GoBiz | [docs/gopay/](docs/gopay/) | auth, users, merchants, transactions, payouts, QRIS, watcher |
+| ShopeePay partner | [docs/shopee/](docs/shopee/) | OTP login, stores, transactions + issuer, watcher (`B:` or OTP) |
 
 Start at the [docs index](docs/README.md). APK research knowledge base: [KB index](docs/KB_QRIS_MERCHANT_INDEX.md).
 
@@ -111,121 +87,89 @@ Start at the [docs index](docs/README.md). APK research knowledge base: [KB inde
 
 Three things to understand before anything else:
 
-1. **Money differs per provider — never mix them.**
-   - GoPay answers minor units (sen): `gross_amount: 10600000` = Rp106.000 → convert with
-     `gopay.money.to_rupiah()`.
-   - ShopeePay answers whole rupiah as grouped strings: `"409.662"` = Rp409.662 → parse with
-     `shopee.money.parse_id_amount()`.
-2. **Sessions are yours to keep.**
-   - GoPay: cache the `access_token` and revalidate cheaply (`merchants.search()`). The client
-     automatically refreshes once on an expired-token response when both access and refresh tokens
-     are configured; if refresh is rejected, stop polling and log in again.
-   - ShopeePay: log in with OTP and `refresh_session()` without re-OTP, or paste a manual `B:`
-     token; on codes `200020` / `2010000`, renew it.
-3. **Every HTTP error raises `ApiException`.** It carries `.http_status`, `.code` (when the
-   provider sent one), `.payload` (full body), and a readable message. Transport errors
-   (DNS/connect/timeout) retry with backoff; HTTP errors never retry.
+**Money differs per provider — never mix them.** GoPay answers minor units (sen):
+`gross_amount: 10600000` = Rp106.000, convert with `gopay.money.to_rupiah()`. ShopeePay answers
+whole rupiah as grouped strings: `"409.662"` = Rp409.662, parse with
+`shopee.money.parse_id_amount()`.
 
-## Configuration
+**Sessions are yours to keep.** GoPay: cache the `access_token`, revalidate cheaply with
+`merchants.search()`; the client automatically refreshes once on an expired-token response when
+both access and refresh tokens are configured — if refresh is rejected, stop polling and log in
+again. ShopeePay: log in with OTP and `refresh_session()` without re-OTP, or paste a manual `B:`
+token; on codes `200020` / `2010000`, renew it.
 
-### GoPay OTP portal compatibility
+**Every HTTP error raises `ApiException`.** It carries `.http_status`, `.code` (when the provider
+sent one), `.payload` (full body), and a readable message. Transport errors (DNS/connect/timeout)
+retry with backoff; HTTP errors never retry.
 
-The current browser portal uses `https://portal.gofoodmerchant.co.id` for `/goid/login/request`
-and `/goid/token`; merchant/data APIs remain on `https://api.gobiz.co.id`. The default browser
-build is `platform-v3.125.0-e1923971` with Chrome 148 metadata. If GoBiz rolls a new build,
-override it without editing code:
+## Portal compatibility
 
-```bash
-export QRISMERCHANTID_GOPAY_APP_VERSION="platform-v3.xxxxx"
+The GoPay browser portal uses `https://portal.gofoodmerchant.co.id` for `/goid/login/request` and
+`/goid/token`; merchant/data APIs remain on `https://api.gobiz.co.id`. The default browser build
+is `platform-v3.125.0-e1923971` (Chrome 148 metadata) — if GoBiz rolls a new build, override it
+without editing code:
+
+```console
+$ export QRISMERCHANTID_GOPAY_APP_VERSION="platform-v3.xxxxx"
 ```
 
 Read `otp_length` from the `request_otp()` response; do not assume the OTP is six digits.
 
-### Client options
-
-Both facades accept the same tuning knobs:
-
-```python
-gopay = GoPayMerchant(
-    access_token=session["access_token"],
-    refresh_token=session["refresh_token"],
-    timeout=30.0,      # seconds
-    max_retries=2,     # transport errors only — never HTTP errors
-    backoff_base=0.5,  # exponential: 0.5s, 1s, 2s, ...
-)
-```
-
-Need HTTP/2, a proxy, or a custom CA? Pass your own transport
-(`qrismerchantid.core.transport.HttpxTransport`). Full per-provider options:
-[GoPay config](docs/gopay/README.md#8-configuration) ·
-[ShopeePay config](docs/shopee/README.md#5-configuration).
-
-## Examples
-
-Runnable flows in [`examples/`](examples/) (need real merchant credentials via env, except QRIS):
-
-| #  | File                      | What it does              |
-| -- | ------------------------- | ------------------------- |
-| 01 | `01_login_otp.py`         | GoPay OTP login           |
-| 02 | `02_merchants.py`         | GoPay merchants           |
-| 03 | `03_transactions.py`      | GoPay transactions        |
-| 04 | `04_qris_dynamic.py`      | Dynamic QRIS (offline)    |
-| 05 | `05_watch_payment.py`     | GoPay payment watcher     |
-| 06 | `06_shopee_stores.py`     | ShopeePay stores          |
-| 07 | `07_shopee_transactions.py` | ShopeePay transactions  |
-| 08 | `08_shopee_watch.py`      | ShopeePay payment watcher |
-| 09 | `09_shopee_login_otp.py`  | ShopeePay OTP login       |
-
 ## Development
 
-```bash
-pip install -e ".[dev]"
-pytest          # 100% offline — never hits the real API
-ruff check src tests && ruff format --check src tests
-mypy src        # strict
-python -m build
+```console
+$ pip install -e ".[dev]"
+$ pytest          # 100% offline — never hits the real API
+$ ruff check src tests && ruff format --check src tests
+$ mypy src        # strict
+$ python -m build
 ```
 
-## Research
-
-Full endpoint research (repos surveyed + anonymized HAR verification):
-[`research/RESEARCH_GOPAY_SHOPEEPAY.md`](research/RESEARCH_GOPAY_SHOPEEPAY.md) · ShopeePay deep-dive
-[`research/ANALYSIS_SHOPEEPAY_PHASE_B.md`](research/ANALYSIS_SHOPEEPAY_PHASE_B.md) · GoBiz OTP
-incident report [`research/REPORT_GOBIZ_OTP_2026-09-19.md`](research/REPORT_GOBIZ_OTP_2026-09-19.md).
-
-**APK research knowledge base** (GoPay Merchant 2.3.0 + GoFood Merchant 5.49.0 — ±240 endpoints,
-hosts, deeplinks, masked security findings):
-
-- 📚 Start here: [KB index](docs/KB_QRIS_MERCHANT_INDEX.md) · machine-readable data in
-  [`reference/`](reference/) · [agent guide](docs/KB_QRIS_MERCHANT_AGENT_GUIDE.md)
-- 🔁 Reproduce it yourself / port to another language: [APK research reproduction
-  guide](docs/APK_RESEARCH_REPRODUCTION_GUIDE.md)
-- 🛡️ Security researchers & vendors: [responsible disclosure](docs/SECURITY_DISCLOSURE.md) (also
-  see [SECURITY.md](SECURITY.md))
+Runnable flows in [`examples/`](examples/) (need real merchant credentials via env, except QRIS):
+`01_login_otp.py`, `02_merchants.py`, `03_transactions.py`, `04_qris_dynamic.py`,
+`05_watch_payment.py`, `06_shopee_stores.py`, `07_shopee_transactions.py`, `08_shopee_watch.py`,
+`09_shopee_login_otp.py`.
 
 ## Roadmap
 
-- [x] GoPay provider — auth (OTP + email), merchants, transactions, payouts, QRIS, watcher.
-- [x] ShopeePay provider — OTP login, stores, feed + issuer lookup, watcher.
-- [ ] Live verification against real partner accounts (TODO-S1, TODO-R3) — field reports welcome in
-      [Discussions](https://github.com/AlfinAI/QrisMerchantID/discussions).
-- [x] `v0.3.0` source release.
-- [x] `v0.3.2` GoPay browser OTP compatibility release.
-- [ ] PyPI publication — prepare-only until a clean secret scan and release review are complete.
-- [ ] Your idea here — open a Discussion or a feature request.
+* [x] GoPay provider — auth (OTP + email), merchants, transactions, payouts, QRIS, watcher.
+* [x] ShopeePay provider — OTP login, stores, feed + issuer lookup, watcher.
+* [ ] Live verification against real partner accounts (TODO-S1, TODO-R3) — field reports welcome in [Discussions](https://github.com/AlfinAI/QrisMerchantID/discussions).
+* [x] `v0.3.0` source release · [x] `v0.3.2` GoPay browser OTP compatibility release.
+* [ ] PyPI publication — prepare-only until a clean secret scan and release review are complete.
+* [ ] Your idea here — open a Discussion or a feature request.
 
 ## Contributing
 
-- 🐞 Found a bug? [Open a bug
-  report](https://github.com/AlfinAI/QrisMerchantID/issues/new?template=bug_report.md) — offline
-  repro snippets get fixed fastest.
-- 💡 Want an endpoint? [Request
-  it](https://github.com/AlfinAI/QrisMerchantID/issues/new?template=feature_request.md) with a
-  traffic sample or upstream link as evidence.
-- 💬 Questions, ideas, show-and-tell →
-  [Discussions](https://github.com/AlfinAI/QrisMerchantID/discussions).
-- 🔒 Security issue? See [SECURITY.md](SECURITY.md) — never file it publicly.
-- 🤝 Pull requests welcome — see [CONTRIBUTING.md](CONTRIBUTING.md).
+* 🐞 Found a bug? [Open a bug report](https://github.com/AlfinAI/QrisMerchantID/issues/new?template=bug_report.md) — offline repro snippets get fixed fastest.
+* 💡 Want an endpoint? [Request it](https://github.com/AlfinAI/QrisMerchantID/issues/new?template=feature_request.md) with a traffic sample or upstream link as evidence.
+* 💬 Questions, ideas, show-and-tell → [Discussions](https://github.com/AlfinAI/QrisMerchantID/discussions).
+* 🔒 Security issue? See [SECURITY.md](SECURITY.md) — never file it publicly.
+* 🤝 Pull requests welcome — see [CONTRIBUTING.md](CONTRIBUTING.md).
+
+Questions, bug reports, or research collaboration — Telegram: **[@JoestarMojo](https://t.me/JoestarMojo)**.
+
+## Disclaimer
+
+**English.** This is an **unofficial, independent research project**. It is NOT affiliated with,
+endorsed by, or supported by GoTo, GoPay, GoBiz, Shopee, Sea Group, or any reference-repo author.
+It is provided for **research and educational purposes only**, without warranty of any kind. Using
+unofficial APIs may violate the providers' Terms of Service and can lead to rate limits,
+suspension, or termination of your accounts. **You use this software entirely at your own risk —
+the author (AlfinAI) shall not be liable for any loss, damage, account action, or legal
+consequence arising from its use.** Credentials and tokens you enter stay on your machine (they
+are only ever sent to the providers' own official servers) — never commit `.env`, `*.har`, or
+token/OTP cache files to any repository.
+
+**Bahasa Indonesia.** Ini adalah **proyek riset independen yang tidak resmi (unofficial)**. TIDAK
+berafiliasi, didukung, atau disetujui oleh GoTo, GoPay, GoBiz, Shopee, Sea Group, maupun author
+repo referensi mana pun. Disediakan **hanya untuk riset dan edukasi**, tanpa jaminan apa pun.
+Penggunaan API tidak resmi dapat melanggar Syarat & Ketentuan penyedia dan berakibat akun
+dibatasi, ditangguhkan, atau dihapus. **Segala risiko dan akibat yang timbul sepenuhnya menjadi
+tanggung jawab pengguna — author (AlfinAI) tidak bertanggung jawab atas kerugian, kerusakan,
+tindakan terhadap akun, atau konsekuensi hukum apa pun dari penggunaan software ini.**
+Kredensial/token hanya tersimpan di mesin Anda (dan hanya dikirim ke server resmi penyedia) —
+jangan pernah commit file `.env`, `*.har`, atau cache token/OTP ke repo mana pun.
 
 ## Credits
 
@@ -236,11 +180,6 @@ API knowledge: [kavionn/gobiz-payment](https://github.com/kavionn/gobiz-payment)
 [ahmadzakiyox/gopay-api-gateaway](https://github.com/ahmadzakiyox/gopay-api-gateaway),
 [ahmadzakiyox/shoppepay-api-gateway](https://github.com/ahmadzakiyox/shoppepay-api-gateway),
 [namtxs/gopay-api](https://github.com/namtxs/gopay-api). Python package maintained by AlfinAI.
-
-## Contact
-
-Questions, bug reports, or research collaboration — Telegram:
-**[@JoestarMojo](https://t.me/JoestarMojo)**.
 
 ## Sponsor
 
