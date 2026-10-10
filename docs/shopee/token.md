@@ -1,7 +1,7 @@
 # ShopeePay token — paste a manual `B:...` token (B1)
 
-B1 has no login flow yet (programmatic OTP arrives in B2), so you paste the merchant token from your
-own logged-in partner portal session — the same recipe the `shoppepay-api-gateway` reference uses.
+No login flow needed: paste the merchant token from your own logged-in partner portal session — the
+same recipe the `shoppepay-api-gateway` reference uses.
 
 ## Grab the token (2 minutes, your browser)
 
@@ -10,6 +10,9 @@ own logged-in partner portal session — the same recipe the `shoppepay-api-gate
 3. Open the ShopeePay transaction history page (fires `get-transaction-list`).
 4. Click that request → Request Payload → `data` → `metadata` → `token`.
 5. Copy the value (starts with `B:`).
+
+## Use it
+
 ```python
 from qrismerchantid import ShopeePayPartner
 
@@ -22,7 +25,7 @@ print(sp.stores.list_stores())
 - The token lives in YOUR `.env` (`SHOPEE_TOKEN=...`) — it is only ever sent to Shopee's own
   servers. Never commit it.
 - Tokens rotate when the portal session refreshes: when calls start failing with `200020`/`2010000`
-  ("Shopee rejected the saved session"), paste a fresh one. B2 will automate renewal.
+  ("Shopee rejected the saved session"), paste a fresh one.
 - Multi-store: each storefront session has its own token — construct one `ShopeePayPartner` per
   token.
 

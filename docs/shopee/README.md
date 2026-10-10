@@ -2,8 +2,8 @@
 
 [← back to main README](../../README.md)
 
-Manual-token provider (B1): paste a `B:...` token from your own portal session, then one facade
-sharing a single client. Programmatic OTP login arrives in FASE B2.
+Two ways to authenticate: programmatic OTP login, or paste a `B:...` token from your own portal
+session. Everything lives on one facade sharing a single client:
 
 ```python
 from qrismerchantid import ShopeePayPartner
@@ -14,12 +14,27 @@ sp.transactions   # list_recent(store_id) — normalized feed
 sp.watch(...)     # payment watcher factory (store-scoped)
 ```
 
-Service pages: [auth](auth.md) · [token](token.md) · [stores](stores.md) ·
-[transactions](transactions.md) · [watcher](watcher.md) · [device-risk](device-risk.md)
+| Page | Covers |
+| ---- | ------ |
+| [auth](auth.md) | Programmatic OTP login (B2), merchant picker, session renewal |
+| [token](token.md) | Paste a manual `B:` token (B1) |
+| [stores](stores.md) | Storefront discovery |
+| [transactions](transactions.md) | Normalized feed + issuer lookup |
+| [device-risk](device-risk.md) | Capture your own telemetry blob for OTP |
+| [watcher](watcher.md) | Payment watcher API + gateway recipe |
+
+## Contents
+
+1. [Login — OTP (or manual token)](#1-login--otp-or-manual-token)
+2. [Stores](#2-stores)
+3. [Transactions](#3-transactions)
+4. [Payment watcher](#4-payment-watcher)
+5. [Configuration](#5-configuration)
+6. [Merchant flow](#merchant-flow)
 
 ## 1. Login — OTP (or manual token)
 
-Two ways to authenticate. Programmatic OTP login (B2):
+### Option A — programmatic OTP login
 
 ```python
 challenge = sp.auth.request_otp("0812xxxxxxx", password="...")  # + device_report, see below
@@ -44,8 +59,10 @@ second OTP needed. Full guide: [auth.md](auth.md).
 > risk token and Shopee silently withholds the code. Capture the blob from YOUR own browser —
 > [device-risk.md](device-risk.md). No shared blob is shipped with this package, deliberately.
 
-Alternative: paste a manual `B:` token ([token.md](token.md)) — 2 minutes, no login flow, but
-re-paste on every rotation.
+### Option B — manual `B:` token
+
+Paste a token from your own logged-in partner portal session ([token.md](token.md)) — 2 minutes,
+no login flow, but re-paste on every rotation.
 
 ## 2. Stores
 
@@ -124,7 +141,7 @@ get rate-limited.
 
 ```python
 sp = ShopeePayPartner(
-    token="B:...",
+    token=session["token"],
     timeout=30.0,       # seconds
     max_retries=2,      # transport errors only — never HTTP errors
     backoff_base=0.5,   # exponential: 0.5s, 1s, 2s, ...

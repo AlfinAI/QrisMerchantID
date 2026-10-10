@@ -26,4 +26,5 @@ This SDK mirrors [lintangtimur/ovoid](https://github.com/lintangtimur/ovoid). Wh
 - Keep method parity (`camelCase` PHP → `snake_case` Python) and the same wire shapes.
 - Deliberate deviations (like the APK-verified header defaults) must cite `research/` evidence and
   be noted in `CHANGELOG.md`.
-- Update `docs/services/<name>.md` and add an offline test for every behavior change.
+- Update the relevant provider docs (`docs/gopay/`, `docs/shopee/`) and add an offline test for
+  every behavior change.

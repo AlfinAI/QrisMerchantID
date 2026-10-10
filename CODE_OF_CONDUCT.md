@@ -7,5 +7,5 @@ requests, and any project discussion spaces.
 Enforcement: report unacceptable behavior to the maintainer (see `pyproject.toml` authors).
 Violations may lead to warnings, temporary bans, or permanent removal from the project. This is a
 research/educational project — it must also never be used to facilitate fraud, account takeover, or
-any abuse of OVO accounts; such use and any contributions enabling it are out of scope and will be
-rejected.
+any abuse of merchant accounts; such use and any contributions enabling it are out of scope and will
+be rejected.

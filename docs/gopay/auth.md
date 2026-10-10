@@ -1,18 +1,21 @@
 # GoPay auth — GoID login (password + OTP)
 
-As of 2026-10-03, browser GoID auth uses `https://portal.gofoodmerchant.co.id/goid/*`; merchant/data APIs remain on `https://api.gobiz.co.id`. The default portal build is `platform-v3.125.0-e1923971` with Chrome 148 metadata. Override with `QRISMERCHANTID_GOPAY_APP_VERSION` when the portal build changes.
+As of 2026-10-03, browser GoID auth uses `https://portal.gofoodmerchant.co.id/goid/*`;
+merchant/data APIs remain on `https://api.gobiz.co.id`. The default portal build is
+`platform-v3.125.0-e1923971` with Chrome 148 metadata. Override with
+`QRISMERCHANTID_GOPAY_APP_VERSION` when the portal build changes.
 
 Source of truth: live portal HAR (Sep 2026, research §9). Both login endpoints answer **HTTP 201**
 and require the full device header set (handled by the client).
 
 ## Endpoints
 
-| Call                                  | Request body                                                                    | Response                                                                                   |
-| ------------------------------------- | ------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
-| `POST /goid/login/request` (OTP)      | `{client_id, phone_number, country_code}` — NO `login_type` (portal sends none) | `{data: {otp_token, otp_expires_in: 720, otp_length: 4, next_state}, success, errors: []}` |
-| `POST /goid/token` (OTP)              | `{client_id, grant_type: "otp", data: {otp, otp_token}}`                        | `{access_token, refresh_token, dbl_enabled}`                                               |
-| `POST /goid/login/request` (password) | `{email, login_type: "password", client_id}`                                    | 201 `{data: {}, success, errors: []}` ✅ verified live (§9.5)                               |
-| `POST /goid/token` (password)         | `{client_id, grant_type: "password", data: {email, password}}`                  | session, same shape                                                                        |
+| Call | Request body | Response |
+| ---- | ------------ | -------- |
+| `POST /goid/login/request` (OTP) | `{client_id, phone_number, country_code}` — NO `login_type` (portal sends none) | `{data: {otp_token, otp_expires_in: 720, otp_length: 4, next_state}, success, errors: []}` |
+| `POST /goid/token` (OTP) | `{client_id, grant_type: "otp", data: {otp, otp_token}}` | `{access_token, refresh_token, dbl_enabled}` |
+| `POST /goid/login/request` (password) | `{email, login_type: "password", client_id}` | 201 `{data: {}, success, errors: []}` ✅ verified live (§9.5) |
+| `POST /goid/token` (password) | `{client_id, grant_type: "password", data: {email, password}}` | session, same shape |
 
 ## SDK
 
@@ -28,11 +31,11 @@ session = gopay.auth.login_with_otp(code, otp["otp_token"])
 session = gopay.auth.login_with_password(email, password)
 ```
 
-- Success sets the bearer token on the shared client automatically.
-- Either flow works — pick OTP (no password stored) or email+password (needs both set in the portal;
-  unset-email error shape is TODO-R3).
-- Phone input is normalized to bare national format (`0812…`/`+62812…` → `812…`, `country_code="62"`
-  default); garbage raises `ValueError` before any API call.
+- Success sets the Bearer token on the shared client automatically.
+- Either flow works — pick OTP (no password stored) or email+password (needs both set in the
+  portal; unset-email error shape is TODO-R3).
+- Phone input is normalized to bare national format (`0812…`/`+62812…` → `812…`,
+  `country_code="62"` default); garbage raises `ValueError` before any API call.
 - OTP is 4 digits via SMS with a ~12 min window; keep `otp_token` server-side (or
   `token_cache.save_pending_otp()`) between the two calls.
 - Sessions carry server-side expiry. Persist both `access_token` and `refresh_token` with
@@ -42,11 +45,19 @@ session = gopay.auth.login_with_password(email, password)
   `grant_type: "refresh_token"` and `data.refresh_token`. Persist the returned session
   because the refresh token rotates.
 - A cached session must be passed as both tokens:
-  `GoPayMerchant(access_token=session["access_token"], refresh_token=session["refresh_token"])`.
-- If refresh fails because the refresh token is revoked or expired, stop polling and perform a fresh login.
-  The refresh flow is intended to prevent unnecessary logout/login cycles; it cannot keep an account
-  permanently connected after GoBiz revokes the session. The provider's account-suspension policy,
-  including whether repeated login alone causes suspension, is **BELUM TERVERIFIKASI**.
+
+  ```python
+  gopay = GoPayMerchant(
+      access_token=session["access_token"],
+      refresh_token=session["refresh_token"],
+  )
+  ```
+
+- If refresh fails because the refresh token is revoked or expired, stop polling and perform a
+  fresh login. The refresh flow is intended to prevent unnecessary logout/login cycles; it cannot
+  keep an account permanently connected after GoBiz revokes the session. The provider's
+  account-suspension policy, including whether repeated login alone causes suspension, is
+  **BELUM TERVERIFIKASI**.
 
 ## Errors
 

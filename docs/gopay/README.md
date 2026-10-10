@@ -16,8 +16,26 @@ gopay.payouts       # payout history + payable balance
 gopay.watch(...)    # payment watcher factory
 ```
 
-Service pages: [auth](auth.md) · [merchants](merchants.md) · [transactions](transactions.md) ·
-[payouts](payouts.md) · [qris](qris.md) · [watcher](watcher.md)
+| Page | Covers |
+| ---- | ------ |
+| [auth](auth.md) | OTP + password login, endpoints, session cache, errors |
+| [merchants](merchants.md) | Profile, search, detail |
+| [transactions](transactions.md) | Analytics feed, journals, issuer breakdown, money |
+| [payouts](payouts.md) | Payout history + payable balance |
+| [qris](qris.md) | Offline EMVCo/QRIS helpers |
+| [watcher](watcher.md) | Payment watcher API + gateway recipe |
+
+## Contents
+
+1. [Login — OTP & password](#1-login--otp--password)
+2. [Session cache](#2-session-cache)
+3. [Users & merchants](#3-users--merchants)
+4. [Transactions](#4-transactions)
+5. [Payouts](#5-payouts)
+6. [QRIS dynamic](#6-qris-dynamic)
+7. [Payment watcher](#7-payment-watcher)
+8. [Configuration](#8-configuration)
+9. [Merchant flows](#merchant-flows)
 
 ## 1. Login — OTP & password
 
@@ -129,6 +147,8 @@ by_issuer = gopay.transactions.qris_issuer_breakdown(start, end)
 # -> {"aggregations": {"by_qris_issuer": {"buckets": [...]}}}
 ```
 
+Full reference: [transactions](transactions.md).
+
 ## 5. Payouts
 
 HAR-discovered endpoints — absent from every reference repo:
@@ -184,7 +204,8 @@ is how accounts get rate-limited.
 
 ```python
 gopay = GoPayMerchant(
-    access_token="...",
+    access_token=session["access_token"],
+    refresh_token=session["refresh_token"],
     timeout=30.0,       # seconds
     max_retries=2,      # transport errors only — never HTTP errors
     backoff_base=0.5,   # exponential: 0.5s, 1s, 2s, ...
